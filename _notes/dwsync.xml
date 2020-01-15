@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="addCategory.php" server="files.000webhost.com/public_html/" local="131829568800000000" remote="131829568800000000" Dst="1" />
+<file name="session.php" server="files.000webhost.com/public_html/" local="131825734200000000" remote="131825734200000000" Dst="1" />
+<file name="addItem.php" server="files.000webhost.com/public_html/" local="131877681640000000" remote="131877897600000000" Dst="1" />
+<file name="addSaving.php" server="files.000webhost.com/public_html/" local="131829314860000000" remote="131829495000000000" Dst="2" />
+<file name="getCurrentStatus.php" server="files.000webhost.com/public_html/" local="131328180000000000" remote="131328180000000000" Dst="2" />
+<file name="getItemsByDate.php" server="files.000webhost.com/public_html/" local="131824950860000000" remote="131825644800000000" Dst="2" />
+<file name="getItemsWithFGFeeder.php" server="files.000webhost.com/public_html/" local="131316984000000000" remote="131316984000000000" Dst="1" />
+<file name="myWalletX.php" server="files.000webhost.com/public_html/" local="131877691000000000" remote="131877906600000000" Dst="1" />
+<file name="getCategories.php" server="files.000webhost.com/public_html/" local="131877682900000000" remote="131840778000000000" Dst="1" />
+<file name="getItemsWithFG.php" server="files.000webhost.com/public_html/" local="131316984000000000" remote="131316984000000000" Dst="1" />
+<file name="logout.php" server="files.000webhost.com/public_html/" local="131316948000000000" remote="131316948000000000" Dst="2" />
+<file name="index.php" server="files.000webhost.com/public_html/" local="131316948000000000" remote="131316948000000000" Dst="2" />
+<file name="login.php" server="files.000webhost.com/public_html/" local="131316948000000000" remote="131316948000000000" Dst="2" />
+<file name="dataChart.php" server="files.000webhost.com/public_html/" local="131840552900000000" remote="131840736000000000" Dst="2" />
+<file name="graph1.php" server="files.000webhost.com/public_html/" local="131877695600000000" remote="131877911400000000" Dst="1" />
+<file name="graph2.php" server="files.000webhost.com/public_html/" local="131840568360000000" remote="131840748600000000" Dst="2" />
+<file name="graph1Specific.php" server="files.000webhost.com/public_html/" local="131840568280000000" remote="131840748600000000" Dst="2" />
+<file name=".htaccess" server="files.000webhost.com/public_html/" local="131840465960000000" remote="131328180000000000" Dst="2" />
+<file name="bargraphOut.html" server="files.000webhost.com/public_html/" local="131840465980000000" remote="131830384800000000" Dst="2" />
+<file name="graph1.html" server="files.000webhost.com/public_html/" local="131840466020000000" remote="131838774000000000" Dst="2" />
+<file name="dataChartSpecific.php" server="files.000webhost.com/public_html/" local="131840552820000000" remote="131840736600000000" Dst="2" />
+<file name="graph2Specific.php" server="files.000webhost.com/public_html/" local="131840568460000000" remote="131840749200000000" Dst="2" />
+</dwsync>
