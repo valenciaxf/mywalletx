@@ -18,6 +18,7 @@ include('session.php');
 </div>
 <div>
 <b id="welcome">Welcome : <i><?php echo $login_session; ?></i>
+
 </div>
 
 <?php require_once('db/dbConn.php'); ?>
@@ -25,7 +26,14 @@ include('session.php');
 
 <div id="apDivLeft" class="border">
 
-  <?php include('getCategories.php'); ?></div>
+  <?php include('getCategories.php'); ?>
+  
+	<p>
+	<a href="logout.php"><br>
+	<img src="ims/exit.png" alt="Exit..." width="39" height="39" title="Exit!"></a>
+	<br>  
+
+</div>
 
 <div id="apDivJoinRigth" class="border"></div>
 
@@ -33,58 +41,64 @@ include('session.php');
 
 <p>
 <a href="addItem.php"><br>
-<img id="item" src="ims/addItem.png" alt="Add Item..." width="30" height="30" title="Add Item!"></a>
+<img id="item" src="ims/addItem.png" alt="Add Item..." width="39" height="39" title="Add Item!"></a>
 <br>
 </p>
 
 
 <p>
 <a href="addCategory.php"><br>
-<img src="ims/addCategory.png" alt="Add Category..." width="30" height="30" title="Add Category!"></a>
+<img src="ims/addCategory.png" alt="Add Category..." width="39" height="39" title="Add Category!"></a>
 <br>
 </p>
 
 <p>
 <a href="addSaving.php"><br>
-<img src="ims/addSaving.png" alt="Register Saving..." width="30" height="30" title="Register Saving!"></a>
+<img src="ims/addSaving.png" alt="Register Saving..." width="39" height="39" title="Register Saving!"></a>
 <br>
 </p>
 
 <p>
 <a href="getCurrentStatus.php"><br>
-<img src="ims/currentStatus.png" alt="Get Current Status..." width="30" height="30" title="Get Current Status!"></a>
+<img src="ims/currentStatus.png" alt="Get Current Status..." width="39" height="39" title="Get Current Status!"></a>
 <br>
 </p>
 
 <p>
 <a href="bars.php"><br>
-<img src="ims/bars.png" alt="Bars..." width="30" height="30" title="Bar Chart All Categories!"></a>
+<img src="ims/bars.png" alt="Bars..." width="39" height="39" title="Bar Chart All Categories!"></a>
 <br>
 
 <p>
 <a href="pieAll.php"><br>
-<img src="ims/pieAll.png" alt="Pie All..." width="27" height="27" title="Pie Chart All Categories!"></a>
+<img src="ims/pieAll.png" alt="Pie All..." width="39" width="39" title="Pie Chart All Categories!"></a>
 <br>
 
 <p>
 <a href="barSingle.php"><br>
-<img src="ims/barSingle.png" alt="Bar..." width="30" height="30" title="Bar Chart Specific Category!"></a>
+<img src="ims/barSingle.png" alt="Bar..." width="39" height="39" title="Bar Chart Specific Category!"></a>
 <br>
 
 <p>
 <a href="pieSingle.php"><br>
-<img src="ims/pieSingle.png" alt="Pie..." width="27" height="27" title="Pie Chart Specific Category!"></a>
+<img src="ims/pieSingle.png" alt="Pie..." width="39" height="39" title="Pie Chart Specific Category!"></a>
 <br>
 
-<p>
-<a href="logout.php"><br>
-<img src="ims/exit.png" alt="Exit..." width="30" height="30" title="Exit!"></a>
-<br>
+	<p>
+	<a href="pdf.php">
+	<img src="ims/pdf.png" alt="Pie..." width="39" height="39" title="PDF report"></a>
+	<a href="csv.php">
+	<img src="ims/xls.png" alt="Pie..." width="39" height="39" title="CSV report"></a>
+	<br>
+	
 </div>
 
 
 
-<div id="apDivRigth"><?php include('getItemsWithFG.php'); ?></div>
+<div id="apDivRigth">
+	<?php include('getItemsWithFG.php'); ?>
+	
+</div>
 
 </body>
 </html>
