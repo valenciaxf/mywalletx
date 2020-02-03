@@ -1,90 +1,32 @@
 <?php
 require_once('session.php');
+require_once('session.php');
+include_once ('db/dbConn.php');
+$dbConnX=new dbConn();
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="css/bars.css">
 
-<style type="text/css">
-body { font-size: 11px; font-family: "verdana"; }
+<link rel="stylesheet" type="text/css" href="css/item.css">
 
-pre { font-family: "verdana"; font-size: 10px; background-color: #FFFFCC; padding: 5px 5px 5px 5px; }
-pre .comment { color: #008000; }
-pre .builtin { color:#FF0000;  }
-
-
-
-form    {
-	background: -webkit-gradient(linear, bottom, left 175px, from(#CCCCCC), to(#EEEEEE));
-	background: -moz-linear-gradient(bottom, #CCCCCC, #EEEEEE 175px);
-	margin: auto;
-	position: relative;
-	width: 550px;
-	height: 500px;
-#font-family: Tahoma, Geneva, sans-serif;
-	font-size: 10px;
-	line-height: 24px;
-	text-decoration: none;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
-	padding: 10px;
-	border: 1px solid #999;
-	border: inset 1px solid #333;
-	-webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
-	-moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
-	box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
-	font-weight: bold;
-	text-align: justify;
-}
-
-legend
-{
-color: #09C;
-font-size: 13px;
-font-style: normal;
-}
-
-
-textarea:focus, input:focus {
-border: 1px solid #09C;
-}
-
-
-input.button {
-width:100px;
-position:absolute;
-right:20px;
-bottom:20px;
-background:#09C;
-color:#fff;
-font-family: Tahoma, Geneva, sans-serif;
-height:30px;
--webkit-border-radius: 15px;
--moz-border-radius: 15px;
-border-radius: 15px;
-border: 1p solid #999;
-font-weight: bold;
-}
-input.button:hover {
-background:#fff;
-color:#09C;
-}
-
-body {
-    background-image: url("ims/noiseBg.png");
-}
-
-</style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<div id="pagHeader">
+<div id="pagHeaderLogo">
+<a href="logout.php"></a><img width="728" height="90" alt="MyWalletX" src="ims/banner.png">
+</a>
+</div>
+
+<div>
+<b id="welcome">Welcome : <i><?php echo $login_session; ?></i>
+</div>
 
 <?php
-// include db connection...
-include_once ('db/dbConn.php');
-$connX=connFncConnX();
 
 if(isset($_POST['enviar']) && $_POST['enviar'] == 'Save'){
     // calidate empty fields...
@@ -95,21 +37,15 @@ if(isset($_POST['enviar']) && $_POST['enviar'] == 'Save'){
 
 		$savAmount = stripslashes($savAmount);
 		$savDescription = stripslashes($savDescription);
-		$savAmount = mysqli_real_escape_string($connX, $savAmount);
-		$savDescription = mysqli_real_escape_string($connX, $savDescription);
+		$savAmount = mysqli_real_escape_string($dbConnX->connX, $savAmount);
+		$savDescription = mysqli_real_escape_string($dbConnX->connX, $savDescription);
 		
-		#echo " ".$savAmount." ".$savDescription
         // insert...
-        $sqlInsertCat = mysqli_query($connX, "INSERT INTO saving (sav_amount, sav_desc)
-                                    VALUES ('$savAmount', '$savDescription')")
-                                    or die(mysqli_error($connX));
-        #echo "The Saving has been registered...";
-				echo "<div STYLE='position:absolute; TOP:550px; LEFT:400px'>The Saving has been registered....</div>";
+        $sqlInsertSav = $dbConnX->insertSaving($savAmount,$savDescription,$user_id_session);
+		echo "<div STYLE='position:absolute; TOP:600px; LEFT:492px'>The Saving has been registered.... (".$savDescription.")</div>";
 
     }else{
-        #echo "You must fill all the fields...";
-						echo "<div STYLE='position:absolute; TOP:550px; LEFT:400px'>You must fill all the fields...</div>";
-
+			echo "<div STYLE='position:absolute; TOP:600px; LEFT:492px'>You must fill all the fields...</div>";
     }
 }
 ?>
@@ -143,13 +79,7 @@ echo "You have register following saving until now:";
 ?>
 <br>
 <?php
-$connX=connFncConnX();
-
-$sql = "SELECT SUM(sav_amount) FROM saving"; #when multi user is going to be enabled it must add user_id or username...
-$res = mysqli_query($connX,$sql);
-if (FALSE === $res) die("Select sum (savings) failed: ".mysqli_error);
-$row = mysqli_fetch_row($res);
-$sum = $row[0];
+$sum = $dbConnX->getSavingAmount($user_id_session);
 
 echo "Saving-> ".$sum;
 ?>
@@ -157,8 +87,18 @@ echo "Saving-> ".$sum;
 	
 </form>
 
-<p> <div STYLE="position:absolute; TOP:80px; LEFT:905px">Home...</div>
+<p> <div STYLE="position:absolute; TOP:72px; LEFT:905px">Home...</div>
 <a href="index.php">
-<img STYLE="position:absolute; TOP:25px; LEFT:890px" src="ims/home.png" alt="Home..."></a>
-
+<img STYLE="position:absolute; TOP:21px; LEFT:890px" src="ims/home.png" alt="Home..."></a>
 </p>
+
+<p> <div STYLE="position:absolute; TOP:72px; LEFT:990px">Exit...</div>
+<a href="logout.php"><br>
+<img STYLE="position:absolute; TOP:21px; LEFT:980px" src="ims/exit.png" alt="Exit..." width="48" height="48" title="Exit!"></a>
+<br>
+</p>
+
+</body>
+</html>
+
+

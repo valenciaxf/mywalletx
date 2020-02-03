@@ -10,17 +10,11 @@ if(!isset($_SESSION['login_user'])){
 }
 
 // get user from session var...
-$currentUser=$_SESSION['login_user'];
-
-// fetch information...
-$sesSql=$dbConnX->getAuthUser($currentUser);
-
-$rowAuthUser = mysqli_fetch_assoc($sesSql);
-$login_session=$rowAuthUser['username'];
+$login_session=$_SESSION['login_user'];
+$user_id_session=$_SESSION['user_id'];
 
 if(!isset($login_session)){
 	$dbConnX->closeConnX(); // Closing Connection
 	header('location: logout.php'); 
 }
 ?>
-

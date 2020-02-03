@@ -10,7 +10,7 @@ $mydate1 = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : "";
 $mydate2 = isset($_REQUEST["date2"]) ? $_REQUEST["date2"] : "";
 $filename = 'csvReport.csv';
 
-    $result = $dbConnX->fetchData2PdfAndCsv($mydate1,$mydate2);
+    $result = $dbConnX->fetchData2PdfAndCsv($mydate1,$mydate2,$user_id_session);
     $user_arr = array();
     while($row = mysqli_fetch_array($result)){
 		  $cat_name = iconv('UTF-8', 'windows-1252',$row['cat_name']);;
@@ -147,10 +147,12 @@ exit();
 <img STYLE="position:absolute; TOP:21px; LEFT:890px" src="ims/home.png" alt="Home..."></a>
 </p>
 
-<p>
+<p> <div STYLE="position:absolute; TOP:72px; LEFT:990px">Exit...</div>
 <a href="logout.php"><br>
-<img src="ims/exit.png" alt="Exit..." width="30" height="30" title="Exit!"></a>
+<img STYLE="position:absolute; TOP:21px; LEFT:980px" src="ims/exit.png" alt="Exit..." width="48" height="48" title="Exit!"></a>
 <br>
+</p>
+
 
 
 

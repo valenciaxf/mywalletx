@@ -7,16 +7,30 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-
-<link href="datePicker/calendar/calendar/calendar.css" rel="stylesheet" type="text/css" />
 <link href="css/styleLog.css" rel="stylesheet" type="text/css">
 <link href="css/status.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="css/bars.css">
+<link rel="stylesheet" type="text/css" href="css/item.css">
+
+
+<link href="datePicker/calendar/calendar/calendar.css" rel="stylesheet" type="text/css" />
 <script language="javascript" src="datePicker/calendar/calendar/calendar.js"></script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<div id="pagHeader">
+<div id="pagHeaderLogo">
+<a href="logout.php"></a><img width="728" height="90" alt="MyWalletX" src="ims/banner.png">
+</a>
+</div>
+
+<div>
+<b id="welcome">Welcome : <i><?php echo $login_session; ?></i>
+</div>
+
+<br>
 
 <?php
 // include db connection...
@@ -32,7 +46,7 @@ $dbConnX=new dbConn();
 
 <?php
 	echo "You got this month: ";
-	$sum1=$dbConnX->getAvailableAmountCurrentMonth();
+	$sum1=$dbConnX->getAvailableAmountCurrentMonth($user_id_session);
 ?>
 	<i>
 	<?php
@@ -42,7 +56,7 @@ $dbConnX=new dbConn();
 <br>
 <?php
 echo "You have spent this month (until now): ";
-	$sum2=$dbConnX->getSpentCurrentMonth();
+	$sum2=$dbConnX->getSpentCurrentMonth($user_id_session);
 ?>
 	<i>
 	<?php
@@ -85,7 +99,7 @@ echo "This month have: ".$lastDay." days, so You can use daily aprox. for next "
    </p>
 
 <?php
-$sumMonthSavings = $dbConnX->getMonthSaving();
+$sumMonthSavings = $dbConnX->getSavingAmount($user_id_session);
 $availableAfterSavings=($available-$sumMonthSavings);
 $avgAvailable=$availableAfterSavings/$restDays;
 
@@ -109,15 +123,17 @@ echo "Available after savings: "
     </p>
 </form>
 
-<p> <div STYLE="position:absolute; TOP:80px; LEFT:905px">Home...</div>
+<p> <div STYLE="position:absolute; TOP:72px; LEFT:905px">Home...</div>
 <a href="index.php">
-<img STYLE="position:absolute; TOP:25px; LEFT:890px" src="ims/home.png" alt="Home..."></a>
+<img STYLE="position:absolute; TOP:21px; LEFT:890px" src="ims/home.png" alt="Home..."></a>
 </p>
 
-<p> <div STYLE="position:absolute; TOP:80px; LEFT:990px">Exit...</div>
+<p> <div STYLE="position:absolute; TOP:72px; LEFT:990px">Exit...</div>
 <a href="logout.php"><br>
-<img STYLE="position:absolute; TOP:25px; LEFT:980px" src="ims/exit.png" alt="Exit..." width="48" height="48" title="Exit!"></a>
+<img STYLE="position:absolute; TOP:21px; LEFT:980px" src="ims/exit.png" alt="Exit..." width="48" height="48" title="Exit!"></a>
 <br>
+</p>
+
 
 </body>
 </html>

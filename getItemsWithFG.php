@@ -24,13 +24,13 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 
 
 <div class="formdata">
-<div class="formtitle"> <a href='myWalletX.php'> Home </a> </div>
+<div class="formtitle"> <a href='myWalletX.php'> Refresh </a> </div>
 <div class="formbody">
 
 <!--<form id="sform" name="calendarform" method="post" action="getItemsWithFGFeeder.php"> -->
 <form id="calendarform" action="getItemsWithFGFeeder.php" method="post">
 
-              <p class="largetxt"><b>Period...</b></p>
+              <p class="largetxt"><b>Dates: </b></p>
               <div style="float: left;">
                 <div style="float: left; padding-right: 3px; line-height: 18px;">from:</div>
                 <div style="float: left;">

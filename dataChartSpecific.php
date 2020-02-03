@@ -15,7 +15,7 @@ require_once ('db/dbConn.php');
 $dbConnX=new dbConn();
 
 //query to get data from the table
-$res = $dbConnX->getDataChartSingleCat($axStartDate,$axEndDate,$axCategory);
+$res = $dbConnX->getDataChartSingleCat($axStartDate,$axEndDate,$axCategory,$user_id_session);
 
 if (FALSE === $res) die("Select detail failed: ".mysqli_error);
 

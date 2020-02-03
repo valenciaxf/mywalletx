@@ -12,7 +12,7 @@ $axEndDate = $_POST["key2"];
 require_once ('db/dbConn.php');
 $dbConnX=new dbConn();
 
-$res = $dbConnX->getDataChart($axStartDate,$axEndDate);
+$res = $dbConnX->getDataChart($axStartDate,$axEndDate,$user_id_session);
 
 //loop through the returned data...
 $data = array();

@@ -83,17 +83,19 @@ include('session.php');
 <a href="pieSingle.php"><br>
 <img src="ims/pieSingle.png" alt="Pie..." width="39" height="39" title="Pie Chart Specific Category!"></a>
 <br>
-
-	<p>
-	<a href="pdf.php">
-	<img src="ims/pdf.png" alt="Pie..." width="39" height="39" title="PDF report"></a>
-	<a href="csv.php">
-	<img src="ims/xls.png" alt="Pie..." width="39" height="39" title="CSV report"></a>
-	<br>
 	
 </div>
 
+<p> <div STYLE="position:absolute; TOP:90px; LEFT:860px" title="PDF Report">PDF</div>
+<a href="pdf.php">
+<img STYLE="position:absolute; TOP:90px; LEFT:890px" src="ims/pdf.png" alt="PDF Report" width="27" height="27" title="PDF Report"></a>
+</p>
 
+<p> <div STYLE="position:absolute; TOP:90px; LEFT:951px">CSV</div>
+<a href="csv.php"><br>
+<img STYLE="position:absolute; TOP:90px; LEFT:980px" src="ims/xls.png" alt="CSV Report" width="27" height="27" title="CSV Report"></a>
+<br>
+</p>
 
 <div id="apDivRigth">
 	<?php include('getItemsWithFG.php'); ?>

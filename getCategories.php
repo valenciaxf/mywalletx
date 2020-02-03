@@ -4,7 +4,7 @@ require_once('session.php');
 <style type="text/css">
 .class {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-	font-size: 13px;
+	font-size: 18px;
 	color: #666;
 	text-align: left;
 }
@@ -21,7 +21,7 @@ require_once('session.php');
 require_once ('db/dbConn.php');
 $dbConnX=new dbConn();
 
-$sqlQueryCat = $dbConnX->getCategory();
+$sqlQueryCat = $dbConnX->getCategory($user_id_session);
  
 echo "<ul>";
 while($rowCat = mysqli_fetch_array($sqlQueryCat)){

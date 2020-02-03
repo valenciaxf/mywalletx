@@ -44,7 +44,7 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 require_once ('db/dbConn.php');
 $dbConnX=new dbConn();
 
-$sqlQueryCat =  $dbConnX->getCategory();
+$sqlQueryCat =  $dbConnX->getCategory($login_session);
 
 echo "<ul>";
 while($rowCat = mysqli_fetch_array($sqlQueryCat)){
@@ -213,10 +213,12 @@ $mydate2 = isset($_REQUEST["date2"]) ? $_REQUEST["date2"] : "";
 <img STYLE="position:absolute; TOP:21px; LEFT:890px" src="ims/home.png" alt="Home..."></a>
 </p>
 
-<p>
+<p> <div STYLE="position:absolute; TOP:72px; LEFT:990px">Exit...</div>
 <a href="logout.php"><br>
-<img src="ims/exit.png" alt="Exit..." width="30" height="30" title="Exit!"></a>
+<img STYLE="position:absolute; TOP:21px; LEFT:980px" src="ims/exit.png" alt="Exit..." width="48" height="48" title="Exit!"></a>
 <br>
+</p>
+
 
 </body>
 </html>

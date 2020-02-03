@@ -42,14 +42,15 @@ $qtype = isset($_POST['qtype']) ? $_POST['qtype'] : false;
 if ($qtype="Comment") $qtype="ite_comment";
 
 $tables = "item, category";
-$where = " WHERE ite_category=cat_ID $whereFilterDates $whereFilter2";
+//$where = " WHERE ite_category=cat_ID $whereFilterDates $whereFilter2";	
+$where = " WHERE ite_category=cat_ID AND (item.user_id=category.user_id AND item.user_id='$user_id_session') $whereFilterDates $whereFilter2";				//add user_id for multi user...
 
 $result = $dbConnX->getDataFG($sortname,$sortorder,$whereFilterDates,$whereFilter2,$qtype,$mydate1,$mydate2,$tables,$where,$page,$rp,$query);
 
 $total = $dbConnX->countRec($tables,$where);
 
-$sqlSumINTotal = $dbConnX->getSumINTotal($tables,$whereFilterDates,$whereFilter2,$qtype,$query,$mydate1,$mydate2,'IN');
-$sqlSumOUTTotal = $dbConnX->getSumINTotal($tables,$whereFilterDates,$whereFilter2,$qtype,$query,$mydate1,$mydate2,'OUT');
+$sqlSumINTotal = $dbConnX->getSumINTotal($tables,$whereFilterDates,$whereFilter2,$qtype,$query,$mydate1,$mydate2,'IN',$user_id_session);
+$sqlSumOUTTotal = $dbConnX->getSumINTotal($tables,$whereFilterDates,$whereFilter2,$qtype,$query,$mydate1,$mydate2,'OUT',$user_id_session);
 
 header("Content-type: application/json");
 $jsonData = array('page'=>$page,'total'=>$total,'sqlSumINTotal'=>$sqlSumINTotal,'sqlSumOUTTotal'=>$sqlSumOUTTotal,'rows'=>array());
