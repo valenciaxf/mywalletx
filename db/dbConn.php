@@ -67,6 +67,55 @@ class dbConn
 		return $ret;
 	}
 	
+	public function checkPassport($user_id)
+	{
+		$isActive = 0;
+		
+		// To protect MySQL injection for Security purpose
+		$user_id = stripslashes($user_id);
+		$user_id = mysqli_real_escape_string($this->connX, $user_id);
+		$sql = "select end_date as expiry_date, active from passport_mwx where user_id='$user_id' AND active=1";
+		
+		if ($result = mysqli_query($this->connX,$sql)) {
+			$row_cnt = mysqli_num_rows($result);
+			if ($row_cnt == 1) {
+							$rowExpiryDate = mysqli_fetch_assoc($result);
+							$expiry_date=$rowExpiryDate['expiry_date']; 
+							$activeCheck=$rowExpiryDate['active']; 
+							$currentDate=date('Y/m/d');
+							
+							$date1 = new DateTime($expiry_date); 
+							$date2 = new DateTime($currentDate); 
+							
+							if ($date1 < $date2) {
+								//echo nl2br("Expiry date: ".$expiry_date);
+								//echo nl2br("\r\nCurrent date: ".$currentDate);
+								//echo nl2br("\r\nCuenta expirada, actualiza tu registro.");
+								$isActive = 0;
+							}
+							else {
+								//echo nl2br("Cuenta activa. Bienvenido!!!"); 
+								$isActive = 1;
+							}
+			}
+			else {
+				//echo nl2br("Actualiza tu registro, cuenta inactiva."); 
+				$isActive = 0;
+			}
+			
+											//echo nl2br("\r\nrow_cnt: ".$row_cnt);
+
+			/* close result set */
+			mysqli_free_result($result);
+			
+		}
+
+		//$this->closeConnX();
+
+		return $isActive;
+	}
+	
+	
 	public function closeConnX()
 	{
 		mysqli_close($this->connX);

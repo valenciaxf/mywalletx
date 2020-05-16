@@ -83,7 +83,7 @@ if(isset($_POST['enviar']) && $_POST['enviar'] == 'Save'){
 </form>
 
 <p> <div STYLE="position:absolute; TOP:72px; LEFT:905px">Home...</div>
-<a href="index.php">
+<a href="myWalletX.php">
 <img STYLE="position:absolute; TOP:21px; LEFT:890px" src="ims/home.png" alt="Home..."></a>
 </p>
 

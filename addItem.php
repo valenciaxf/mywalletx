@@ -7,12 +7,27 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="css/bars.css">
-<link rel="stylesheet" type="text/css" href="css/item.css">
+
 
 
 <link href="datePicker/calendar/calendar/calendar.css" rel="stylesheet" type="text/css" />
 <script language="javascript" src="datePicker/calendar/calendar/calendar.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" />
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+<script language="javascript">
+window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove(); 
+    });
+}, 4000);
+
+</script>
+
+<link rel="stylesheet" type="text/css" href="css/bars.css">
+<link rel="stylesheet" type="text/css" href="css/item.css">
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
@@ -59,9 +74,19 @@ if(isset($_POST['enviar']) && $_POST['enviar'] == 'Save'){
 		$sqlInsertIte=$dbConnX->insertItem($iteCategory,$iteTotalAmount,$iteQuantity,$iteDate,$iteComment,$user_id_session);
 		
         // confirm...
-		echo "<div STYLE='position:absolute; TOP:600px; LEFT:480px'>The item (".$iteComment.") has been registered....</div>";
-    }else{
-		echo "<div STYLE='position:absolute; TOP:600px; LEFT:480px'>You must fill all the fields...</div>";
+		//echo "<div STYLE='position:absolute; TOP:600px; LEFT:480px'>The item (".$iteComment.") has been registered....</div>";
+		echo "<div class='alert alert-success' role='alert'>
+		<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		<strong>The item (".$iteComment.") has been registered...</strong> 
+		</div>";
+	}else{
+		//echo "<div STYLE='position:absolute; TOP:600px; LEFT:480px'>You must fill all the fields...</div>";
+		
+		echo "<div class='alert alert-success' role='alert'>
+		<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		<strong>You must fill all the fields...</strong> 
+		</div>";
+
     }
 }
 ?>
@@ -87,8 +112,8 @@ if(isset($_POST['enviar']) && $_POST['enviar'] == 'Save'){
 	  $myCalendar = new tc_calendar("iteDate", true);
 	  $myCalendar->setIcon("datePicker/calendar/calendar/images/iconCalendar.gif");
 	  
-          $myCalendar->setDate(date("d"), date("m"), date("Y"));
-          $myCalendar->setPath("datePicker/calendar/calendar/");
+      $myCalendar->setDate(date("d"), date("m"), date("Y"));
+      $myCalendar->setPath("datePicker/calendar/calendar/");
 	  $myCalendar->setYearInterval($startYearCal, $endYearCal);
 	  $myCalendar->writeScript();
 	  
@@ -127,14 +152,14 @@ if ($mydate!="") echo "";//echo("value of date submit = ".$mydate);
 ?>
 
 
-<p> <div STYLE="position:absolute; TOP:72px; LEFT:905px">Home...</div>
-<a href="index.php">
-<img STYLE="position:absolute; TOP:21px; LEFT:890px" src="ims/home.png" alt="Home..."></a>
+<p> <div STYLE="position:absolute; TOP:72px; LEFT:88%">Home</div>
+<a href="myWalletX.php">
+<img STYLE="position:absolute; TOP:21px; LEFT:87%" src="ims/home.png" alt="Home..."></a>
 </p>
 
-<p> <div STYLE="position:absolute; TOP:72px; LEFT:990px">Exit...</div>
+<p> <div STYLE="position:absolute; TOP:72px; LEFT:93%">Exit</div>
 <a href="logout.php"><br>
-<img STYLE="position:absolute; TOP:21px; LEFT:980px" src="ims/exit.png" alt="Exit..." width="48" height="48" title="Exit!"></a>
+<img STYLE="position:absolute; TOP:21px; LEFT:93%" src="ims/exit.png" alt="Exit..." width="48" height="48" title="Exit!"></a>
 <br>
 </p>
 

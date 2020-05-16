@@ -86,14 +86,14 @@ include('session.php');
 	
 </div>
 
-<p> <div STYLE="position:absolute; TOP:90px; LEFT:860px" title="PDF Report">PDF</div>
+<p> <div STYLE="position:absolute; TOP:90px; LEFT:74%" title="PDF Report">PDF</div>
 <a href="pdf.php">
-<img STYLE="position:absolute; TOP:90px; LEFT:890px" src="ims/pdf.png" alt="PDF Report" width="27" height="27" title="PDF Report"></a>
+<img STYLE="position:absolute; TOP:90px; LEFT:72%" src="ims/pdf.png" alt="PDF Report" width="27" height="27" title="PDF Report"></a>
 </p>
 
-<p> <div STYLE="position:absolute; TOP:90px; LEFT:951px">CSV</div>
+<p> <div STYLE="position:absolute; TOP:90px; LEFT:78%">CSV</div>
 <a href="csv.php"><br>
-<img STYLE="position:absolute; TOP:90px; LEFT:980px" src="ims/xls.png" alt="CSV Report" width="27" height="27" title="CSV Report"></a>
+<img STYLE="position:absolute; TOP:90px; LEFT:76%" src="ims/xls.png" alt="CSV Report" width="27" height="27" title="CSV Report"></a>
 <br>
 </p>
 
