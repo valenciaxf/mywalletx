@@ -1,5 +1,7 @@
 <?php
 include('session.php');
+include("homeAndExit.php");
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -11,28 +13,12 @@ include('session.php');
 </head>
 <body>
 
-<div id="pagHeader">
-<div id="pagHeaderLogo">
-<a href="logout.php"></a><img width="728" height="90" alt="MyWalletX" src="ims/banner.png">
-</a>
-</div>
-<div>
-<b id="welcome">Welcome : <i><?php echo $login_session; ?></i>
-
-</div>
-
 <?php require_once('db/dbConn.php'); ?>
-
 
 <div id="apDivLeft" class="border">
 
   <?php include('getCategories.php'); ?>
   
-	<p>
-	<a href="logout.php"><br>
-	<img src="ims/exit.png" alt="Exit..." width="39" height="39" title="Exit!"></a>
-	<br>  
-
 </div>
 
 <div id="apDivJoinRigth" class="border"></div>

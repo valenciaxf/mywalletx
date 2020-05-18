@@ -32,7 +32,7 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 
               <p class="largetxt"><b>Dates: </b></p>
               <div style="float: left;">
-                <div style="float: left; padding-right: 3px; line-height: 18px;">from:</div>
+                <div style="float: left; padding-right: 3px; line-height: 18px;">From:</div>
                 <div style="float: left;">
                   <?php
 				  $startYearCal=date("Y")-50;
@@ -44,8 +44,12 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 						$dayTimes = getDaysInWeek($thisweek, $thisyear);
 						//----------------------------------------
 
-						$date1 = date('Y-m-d', $dayTimes[0]);
-						$date2 = date('Y-m-d', $dayTimes[(sizeof($dayTimes)-1)]);
+						//$date1 = date('Y-m-d', $dayTimes[0]);
+						//$date2 = date('Y-m-d', $dayTimes[(sizeof($dayTimes)-1)]);
+						
+						
+						$date1 = date('d-m-Y', $dayTimes[0]);
+						$date2 = date('d-m-Y', $dayTimes[(sizeof($dayTimes)-1)]);
 
 						function getDaysInWeek ($weekNumber, $year, $dayStart = 1) {
 						  // Count from '0104' because January 4th is always in week 1
@@ -68,16 +72,14 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 					  $myCalendar->setDate(date('d', strtotime($date1)), date('m', strtotime($date1)), date('Y', strtotime($date1)));
 					  $myCalendar->setPath("datePicker/calendar/calendar/");
 					  $myCalendar->setYearInterval($startYearCal, $endYearCal);
-					  //$myCalendar->dateAllow('2009-02-20', "", false);
 					  $myCalendar->setAlignment('left', 'bottom');
 					  $myCalendar->setDatePair('date1', 'date2', $date2);
-					  //$myCalendar->setSpecificDate(array("2011-04-01", "2011-04-04", "2011-12-25"), 0, 'year');
 					  $myCalendar->writeScript();
 					  ?>
                 </div>
               </div>
               <div style="float: left;">
-                <div style="float: left; padding-left: 3px; padding-right: 3px; line-height: 18px;">to</div>
+                <div style="float: left; padding-left: 3px; padding-right: 3px; line-height: 18px;"> To</div>
                 <div style="float: left;">
                   <?php
 					  $myCalendar = new tc_calendar("date2", true, false);
@@ -85,10 +87,8 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 					  $myCalendar->setDate(date('d', strtotime($date2)), date('m', strtotime($date2)), date('Y', strtotime($date2)));
 					  $myCalendar->setPath("datePicker/calendar/calendar/");
 					  $myCalendar->setYearInterval($startYearCal, $endYearCal);
-					  //$myCalendar->dateAllow("", '2009-11-03', false);
 					  $myCalendar->setAlignment('left', 'bottom');
 					  $myCalendar->setDatePair('date1', 'date2', $date1);
-					  //$myCalendar->setSpecificDate(array("2011-04-01", "2011-04-04", "2011-12-25"), 0, 'year');
 					  $myCalendar->writeScript();
 					  
 					  ?>
@@ -159,9 +159,9 @@ $("#flex1").flexigrid({
                 {display: 'Date', name : 'ite_date', width : 80, sortable : true, align: 'right'},
 				{display: 'Comment', name : 'ite_comment', width : 210, sortable : true, align: 'left'}
                 ],
-        searchitems : [
-			    {display: 'Comment', name : 'ite_comment'} /*,*/
-                ],
+        //searchitems : [
+			  //  {display: 'Comment', name : 'ite_comment'} /*,*/
+                //],
         sortname: "ite_date",
         sortorder: "desc",
         usepager: true,
@@ -224,8 +224,7 @@ function loadJSON()
         // Javascript function JSON.parse to parse JSON data
         var jsonObj = JSON.parse(http_request.responseText);
 
-        // jsonObj variable now contains the data structure and can
-        // be accessed as jsonObj.name and jsonObj.country.
+        // jsonObj variable now contains the data structure.
         document.getElementById("sqlSumINTotal").innerHTML =  jsonObj.sqlSumINTotal;
         document.getElementById("sqlSumOUTTotal").innerHTML = jsonObj.sqlSumOUTTotal;
 		
@@ -249,7 +248,7 @@ function loadJSON()
 
 <div id="rDates">  </div>
 <div class="central">
-<button type="button" onclick="loadJSON()" class="button">Get Summary Details... </button>
+<button type="button" onclick="loadJSON()" class="button">Get Summary</button>
 
 </body>
 </html>

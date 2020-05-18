@@ -16,17 +16,10 @@ $dbConnX=new dbConn();
 </head>
 
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
-<div id="pagHeader">
-<div id="pagHeaderLogo">
-<a href="logout.php"></a><img width="728" height="90" alt="MyWalletX" src="ims/banner.png">
-</a>
-</div>
-
-<div>
-<b id="welcome">Welcome : <i><?php echo $login_session; ?></i>
-</div>
 
 <?php
+
+include("homeAndExit.php");
 
 if(isset($_POST['enviar']) && $_POST['enviar'] == 'Save'){
     // calidate empty fields...
@@ -86,17 +79,6 @@ echo "Saving-> ".$sum;
 <br>
 	
 </form>
-
-<p> <div STYLE="position:absolute; TOP:72px; LEFT:905px">Home...</div>
-<a href="index.php">
-<img STYLE="position:absolute; TOP:21px; LEFT:890px" src="ims/home.png" alt="Home..."></a>
-</p>
-
-<p> <div STYLE="position:absolute; TOP:72px; LEFT:990px">Exit...</div>
-<a href="logout.php"><br>
-<img STYLE="position:absolute; TOP:21px; LEFT:980px" src="ims/exit.png" alt="Exit..." width="48" height="48" title="Exit!"></a>
-<br>
-</p>
 
 </body>
 </html>

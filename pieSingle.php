@@ -2,6 +2,8 @@
 require_once('session.php');
 ?>
 <?php
+include("homeAndExit.php");
+
 require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html>
@@ -23,17 +25,6 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 
-<div id="pagHeader">
-<div id="pagHeaderLogo">
-<a href="logout.php"></a><img width="728" height="90" alt="MyWalletX" src="ims/banner.png">
-</a>
-</div>
-<b id="welcome">Welcome : <i><?php echo $login_session; ?></i>
-</div>
-
-<br>
-<br>
-
 <legend>#Select a category and then clic in the required dates</legend>
 <div id="apDivLeft" class="border">
 <span class="class"> 
@@ -44,7 +35,7 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 require_once ('db/dbConn.php');
 $dbConnX=new dbConn();
 
-$sqlQueryCat =  $dbConnX->getCategory($login_session);
+$sqlQueryCat =  $dbConnX->getCategory($user_id_session);
 
 echo "<ul>";
 while($rowCat = mysqli_fetch_array($sqlQueryCat)){
@@ -206,19 +197,6 @@ $mydate2 = isset($_REQUEST["date2"]) ? $_REQUEST["date2"] : "";
         </script>
 
 </div>
-
-
-<p> <div STYLE="position:absolute; TOP:72px; LEFT:905px">Home...</div>
-<a href="index.php">
-<img STYLE="position:absolute; TOP:21px; LEFT:890px" src="ims/home.png" alt="Home..."></a>
-</p>
-
-<p> <div STYLE="position:absolute; TOP:72px; LEFT:990px">Exit...</div>
-<a href="logout.php"><br>
-<img STYLE="position:absolute; TOP:21px; LEFT:980px" src="ims/exit.png" alt="Exit..." width="48" height="48" title="Exit!"></a>
-<br>
-</p>
-
 
 </body>
 </html>
