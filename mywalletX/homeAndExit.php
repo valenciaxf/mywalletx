@@ -4,9 +4,9 @@
   </a>
 </div>
 <br>
-<div STYLE="position:absolute; TOP:93px; LEFT:6%">
+<div STYLE="position:absolute; TOP:93px; LEFT:90%">
 <b id="welcome">Welcome : <i><?php echo $login_session; ?></i></b>
-</div>	
+</div>
 <br>
 
 <p> <div STYLE="position:absolute; TOP:72px; LEFT:64%">Home</div>
