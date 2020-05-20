@@ -91,14 +91,6 @@ border: inset 1px solid #333;
 box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
 }
 
-legend
-{
-color: #09C;
-font-size: 13px;
-font-style: normal;
-}
-
-
 textarea:focus, input:focus {
 border: 1px solid #09C;
 }
@@ -125,23 +117,6 @@ color:#09C;
 
 body {
     background-image: url("../ims/noiseBg.png");
-}
-
-#pagHeader {
-    background-image: url("../ims/xBackground.png");
-    display: block;
-    height: 90px;
-    margin: 0;
-    padding: 0;
-}
-
-#pagHeaderLogo {
-    border: 0 none;
-    height: 90px;
-    margin: 0 0 0 20px;
-    padding: 0;
-    position: relative;
-    width: 161px;
 }
 
 .alert {

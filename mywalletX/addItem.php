@@ -7,8 +7,8 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-
-
+<link rel="stylesheet" type="text/css" href="css/home.css">
+<link href="css/styleLog.css" rel="stylesheet" type="text/css">
 
 <link href="datePicker/calendar/calendar/calendar.css" rel="stylesheet" type="text/css" />
 <script language="javascript" src="datePicker/calendar/calendar/calendar.js"></script>
@@ -37,9 +37,7 @@ window.setTimeout(function() {
 <?php
 include_once ('db/dbConn.php');
 $dbConnX=new dbConn();
-
 include("homeAndExit.php");
-
 
 // recibimos el formulario
 if(isset($_POST['enviar']) && $_POST['enviar'] == 'Save'){

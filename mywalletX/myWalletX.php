@@ -6,15 +6,16 @@ include('session.php');
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/home.css">
-<title>MyWalletX</title>
 <link href="css/styleLog.css" rel="stylesheet" type="text/css">
+<title>MyWalletX</title>
 </head>
 <body>
-
+<?php
+	include("homeAndExit.php");
+?>
+	
 <?php 
-require_once('db/dbConn.php');
-include("homeAndExit.php");
-
+require_once('db/dbConn.php'); 
 ?>
 
 <div id="apDivLeft" class="border">

@@ -1,16 +1,17 @@
-<div id="pagHeader">
-<div id="pagHeaderLogo">
-<img width="100%" height="90" alt="MyWalletX" src="ims/banner.png">
+<div id="logo">
+  <a>
+    <img src="ims/banner.png" alt="MyWalletX" height="90">
+  </a>
 </div>
-<b id="welcome">Welcome : <i><?php echo $login_session; ?></i>
-</div>
-
 <br>
+<div STYLE="position:absolute; TOP:93px; LEFT:6%">
+<b id="welcome">Welcome : <i><?php echo $login_session; ?></i></b>
+</div>	
 <br>
 
-<p> <div STYLE="position:absolute; TOP:72px; LEFT:13%">Home</div>
+<p> <div STYLE="position:absolute; TOP:72px; LEFT:64%">Home</div>
 <a href="myWalletX.php">
-<img STYLE="position:absolute; TOP:21px; LEFT:12%" src="ims/home.png" alt="Home..."></a>
+<img STYLE="position:absolute; TOP:21px; LEFT:63%" src="ims/home.png" alt="Home..."></a>
 </p>
 
 <p> <div STYLE="position:absolute; TOP:72px; LEFT:93%">Exit</div>
