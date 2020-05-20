@@ -20,7 +20,7 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 <script language="javascript">
 window.setTimeout(function() {
     $(".alert").fadeTo(500, 0).slideUp(500, function(){
-        $(this).remove();
+        $(this).remove(); 
     });
 }, 4000);
 
@@ -62,18 +62,21 @@ if(isset($_POST['enviar']) && $_POST['enviar'] == 'Save'){
 		$iteQuantity = mysqli_real_escape_string($dbConnX->connX,$iteQuantity);
 		$iteDate = mysqli_real_escape_string($dbConnX->connX,$iteDate);
 		$iteComment = mysqli_real_escape_string($dbConnX->connX,$iteComment);
-
+		
 		$sqlInsertIte=$dbConnX->insertItem($iteCategory,$iteTotalAmount,$iteQuantity,$iteDate,$iteComment,$user_id_session);
-
+		
         // confirm...
+		//echo "<div STYLE='position:absolute; TOP:600px; LEFT:480px'>The item (".$iteComment.") has been registered....</div>";
 		echo "<div class='alert alert-success' role='alert'>
 		<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-		<strong>The item (".$iteComment.") has been registered...</strong>
+		<strong>The item (".$iteComment.") has been registered...</strong> 
 		</div>";
 	}else{
+		//echo "<div STYLE='position:absolute; TOP:600px; LEFT:480px'>You must fill all the fields...</div>";
+		
 		echo "<div class='alert alert-success' role='alert'>
 		<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-		<strong>You must fill all the fields...</strong>
+		<strong>You must fill all the fields...</strong> 
 		</div>";
 
     }
@@ -97,15 +100,15 @@ if(isset($_POST['enviar']) && $_POST['enviar'] == 'Save'){
 <?php
 				  $startYearCal=date("Y")-50;
 				  $endYearCal=date("Y")+50;
-
+				  
 	  $myCalendar = new tc_calendar("iteDate", true);
 	  $myCalendar->setIcon("datePicker/calendar/calendar/images/iconCalendar.gif");
-
+	  
       $myCalendar->setDate(date("d"), date("m"), date("Y"));
       $myCalendar->setPath("datePicker/calendar/calendar/");
 	  $myCalendar->setYearInterval($startYearCal, $endYearCal);
 	  $myCalendar->writeScript();
-
+	  
 	?>
 	<br>
 </p>
@@ -113,13 +116,13 @@ if(isset($_POST['enviar']) && $_POST['enviar'] == 'Save'){
     <textarea name="iteComment" rows="10" cols="60"></textarea>
   </p>
     <p>
-    Category
+    Category          
       <select name="iteCategory">
         <option value="">Choose Category...</option>
         <?php
 	//check for get item Category from DB...
     $sqlQueryCat = $dbConnX->getCategory($user_id_session);
-
+    
 	//show categories...
     while($rowCat = mysqli_fetch_array($sqlQueryCat)){
 		echo "<option value='$rowCat[cat_ID]'>$rowCat[cat_name]</option>";

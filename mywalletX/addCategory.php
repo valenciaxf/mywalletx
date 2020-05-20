@@ -52,7 +52,8 @@ if(isset($_POST['enviar']) && $_POST['enviar'] == 'Save'){
 
        // insert...
 		$sqlInsertCat=$dbConnX->insertCategory($catCategory,$catDescription,$catType,$user_id_session);
-        // confirm...
+    
+	// confirm...
     echo "<div class='alert alert-success' role='alert'>
     <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
     <strong>The Category has been registered (".$catCategory.") has been registered...</strong>
