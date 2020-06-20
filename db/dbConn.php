@@ -2,11 +2,9 @@
 date_default_timezone_set('America/Mexico_City');
 
 define('DB_SERVER','localhost');
-//define('DB_USER','walletuser');
+define('DB_USER','walletuser');
 define('DB_PASS' ,'passPass32#.');
-define('DB_USER','id13563311_walletuser');
-//define('DB_NAME', 'mywalletx');
-define('DB_NAME', 'id13563311_mywalletx');
+define('DB_NAME', 'mywalletx');
 
 class dbConn
 {
