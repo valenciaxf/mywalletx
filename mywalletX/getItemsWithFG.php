@@ -74,6 +74,7 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 					  $myCalendar->setYearInterval($startYearCal, $endYearCal);
 					  $myCalendar->setAlignment('left', 'bottom');
 					  $myCalendar->setDatePair('date1', 'date2', $date2);
+
 					  $myCalendar->writeScript();
 					  ?>
                 </div>

@@ -581,7 +581,7 @@ function submitNow(dvalue, mvalue, yvalue){
                 $footer_links = array();
 
                 if($cobj->validTodayDate() && ($m != $cdate->getDate('m') || $y != $cdate->getDate('Y')))
-                    $footer_links[] = "<a href=\"javascript:today();\" class=\"txt\" alt=\"Today\" title=\"Today\">Today</a>";
+                    $footer_links[] = "<a href=\"javascript:today();\" class=\"txt\" alt=\"Hoy\" title=\"Hoy\">Hoy</a>";
 
                 if($sld>0 && $slm>0 && $sly>0)
                     $footer_links[] = "<a href=\"javascript:unsetValue();\" class=\"txt\" alt=\"Unset\" title=\"Unset\">Unset</a>";

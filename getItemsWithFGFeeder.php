@@ -27,7 +27,7 @@ if(isset($_GET['cat_ID']) && isset($_GET['cat_name'])){
 if(isset($mydate1) && $mydate2){
 	$whereFilterDates = " and ite_date >= '$mydate1' AND  ite_date <= '$mydate2'";
 }else{
-	$whereFilterDates = "";
+	$whereFilterDates = " and ite_date >= sysdate()-7 AND  ite_date <= sysdate()";
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -14,13 +14,13 @@
 
     //TYPES OF DATABASE
     //1. REMOTE DB - Hosted online. Demo app uses our hosted demo database.
-	//R::setup( 'mysql:host=localhost;dbname=camposha_demos_db', 'camposha_demo_user', '9AmaFn6jpmNe8DN6' );
+	//  R::setup( 'mysql:host=localhost;dbname=camposha_demos_db', 'camposha_demo_user', '9AmaFn6jpmNe8DN6' );
 
     //2. LOCALHOST - Hosted locally in your machine e.g XAMPP, WAMP
-     R::setup( 'mysql:host=localhost;dbname=camposha_demos_db', 'walletuser', 'passPass32#.' );
+    R::setup( 'mysql:host=localhost;dbname=camposha_demos_db', 'walletuser', 'passPass32#.' );
 
     class Repository{
-		        /**
+        /**
          * When user attempts to login, we first check if the email is in our table or not
          */
         public function doesUserExist($email){
@@ -32,35 +32,6 @@
                 return false;
             }
         }
-        /**
-         * Register User in database using the following method.
-         */
-        public function registerUser($name,$email,$password,$bio,$country,$image_url){
-            if($this->doesUserExist($email)){
-                print(json_encode(array("code" => 2, "message"=>"This admin already Exists")));
-                return;
-            }
-            $admin = R::dispense(Constants::$TB_USER);
-            $admin->name = $name;
-            $admin->country = $country;
-            $admin->email = $email;
-            $admin->password = $password;
-            $admin->bio = $bio;
-            $admin->imageUrl = $image_url;
-
-            $id = R::store( $admin );
-
-            if($id > 0){
-                print(json_encode(array("code" => 1, "message"=>"Admin Successfully Registered.",
-                 //'admin'=>$user)));
-				 'admin'=>$email)));
-            }else{
-                print(json_encode(array("code" => 2, "message"=>"Not Registered")));
-            }
-
-
-        }
-
         /**
          * We now login
          */
@@ -105,9 +76,6 @@
                print(json_encode(array("code" => 2, "message"=>"Not Uploaded  .")));
             }
         }
-        /**
-         * If you want to select a painting by id use the following method
-         */
         public function selectById($id){
             $p = R::load( Constants::$TB_PAINTINGS, $id );
             return $p;
@@ -163,23 +131,15 @@
          */
         public function delete($id){
             $p = R::load( Constants::$TB_PAINTINGS, $id );
-			
-			if($p->imageUrl)
-			{
-						$image = "images/".$p->imageUrl;
-						if (unlink($image)) {
-							R::trash( $p);
-							print(json_encode(array("code" => 1, "message"=>"Both Image and Text Successfully Deleted.")));
-						}else{
-							R::trash( $p);
-							print(json_encode(array("code" => 1, "message"=>"Text Successfully Deleted.")));
+            $image = "images/".$p->imageUrl;
+            if (unlink($image)) {
+                R::trash( $p);
+                print(json_encode(array("code" => 1, "message"=>"Both Image and Text Successfully Deleted.")));
+            }else{
+                R::trash( $p);
+                print(json_encode(array("code" => 1, "message"=>"Text Successfully Deleted.")));
 
-						}
-			} else {
-					R::trash( $p);
-					print(json_encode(array("code" => 1, "message"=>"Text Successfully Deleted (Painting without image).")));
-				
-			}
+            }
         }
         /**
          * You can use the following method to select everything from the database
@@ -187,7 +147,6 @@
         public function selectAll(){
             $paintings=R::getAll( 'SELECT * FROM '.Constants::$TB_PAINTINGS);
              print(json_encode(array('code' =>1, 'message' => 'Data Successfully Fetched','paintings'=>$paintings)));
-             //echo json_encode(array('code' =>1, 'message' => 'Data Successfully Fetched','paintings'=>$paintings));
         }
         /**
          * The following method will allow us to select while paginating data
@@ -195,7 +154,7 @@
         public function selectPaged($limit,$start){
             $paintings=R::getAll( 'SELECT * FROM '.Constants::$TB_PAINTINGS. ' LIMIT '.$limit.' OFFSET '.$start );
             if(count($paintings) > 0){
-                print(json_encode(array('code' =>1, 'message' => count($paintings). ' Paintings Successfully Fetched','paintings'=>$paintings)));
+                print(json_encode(array('code' =>1, 'message' => count($paintings)+' Planets Successfully Fetched','paintings'=>$paintings)));
             }else{
                 print(json_encode(array('code' =>1, 'message' => 'No more Painting Found','paintings'=>$paintings)));
             }
@@ -206,8 +165,7 @@
         public function search($query,$limit,$start){
             $sql="SELECT * FROM ".Constants::$TB_PAINTINGS. " WHERE name LIKE '%$query%' OR medium LIKE '%$query%' LIMIT $limit OFFSET $start ";
             $paintings=R::getAll($sql);
-            //print(json_encode(array('code' =>1, 'message' => 'Search Operation Performed','paintings'=>$paintings)));
-            echo json_encode(array('code' =>1, 'message' => 'Search Operation Performed','paintings'=>$paintings));
+            print(json_encode(array('code' =>1, 'message' => 'Search Operation Performed','paintings'=>$paintings)));
         }
 
     }
@@ -280,12 +238,10 @@
                     //To delete we need an id
                     $id = $_POST['id'];
                     $sr->delete($id);
-
                 }else if($action == 'LOGIN'){
                     $email = $_POST['email'];
                     $password = $_POST['password'];
                     $sr->login($email,$password);
-
                 }else{
                     //if we don't know the request the user made
 					print(json_encode(array('code' =>4, 'message' => 'INVALID REQUEST.')));
@@ -296,52 +252,15 @@
             }
 
         } else {
+            //you can also create table by running the following command, then comment it
+             //$sr->upload("Test Painting","The painting presents a woman in half-body portrait, which has as a backdrop a distant landscape.",
+             //"Leonardo Da Vinci","Oil Painting","Modern Era","June 1889","test.jpg");
 
-
-            /**
-             * RedbeanPHP will create a table for you automatically if you attempt to post data from the android
-             * app. Just make sure you have place this folder in the root directory of your project as follows:
-             *
-             * In WAMP: /www/php/art/famouspaintings/index.php
-             * In XAMPP: /htdocs/php/art/famouspaintings/index.php
-             *
-             * In which case your url in the android app will be as follows:
-             * http://your_url/php/art/famouspaintings/index.php
-             * e.g for demo: https://camposha.info.php/art/famouspaintings/index.php
-             *
-             * Make sure you test it in browser.
-             */
-
-             /**
-              * You can also create a table in your database by uncommenting the following line
-              * then running in the browser:http://your_url/php/art/famouspaintings/index.php
-              * Of course uncomment after the table is created.
-              */
-		// $sr->upload("Test Painting","The painting presents a woman in half-body portrait, which has as a backdrop a distant landscape.",
-           // "Leonardo Da Vinci","Oil Painting","Modern Era","June 1889","test.jpg");
-
-            //CREATING USERS TABLE
-            /**
-             * If you want to create a user table, uncomment the following line then run in the browser:
-             * http://your_url/php/art/famouspaintings/index.php
-             */
-            //$sr->registerUser("David James","davidjames@gmail.com","123456","bio data...","USA","test.jpg");
-			
-			//registerUser($name,$email,$password,$bio,$country,$image_url)
-
-            //RETURNING DATA VIA HTTP GET
-            /**
-             * Our app will be returning paginated data via HTTP POST requests. However you can also return
-             * data via http get. For example when you call this file in the browser, that is a HTTP GET request.
-             * Returning 10 items when http get is called
-             */
         	//return 10 items per page
             $sr->search('','10','0');
 
             //if you want to return everything then uncomment below
-            //$sr->selectAll();
-            //$sr->delete(6);
-			//$sr->selectPaged(3,1);
+           // $sr->selectAll();
 
 
         }

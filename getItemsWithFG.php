@@ -2,8 +2,24 @@
 require_once('session.php');
 ?>
 <?php
-require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
+//require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
+require_once('datePicker/calendar/calendar/tc_calendar.php');
 ?>
+
+<?php
+// Request selected language
+$hl = (isset($_POST["hl"])) ? $_POST["hl"] : false;
+if(!defined("L_LANG") || L_LANG == "L_LANG")
+{
+	if($hl) define("L_LANG", $hl);
+
+	// You need to tell the class which language you want to use.
+	// L_LANG should be defined as en_US format!!! Next line is an example, just put your own language from the provided list
+	else define("L_LANG", "es_ES"); // Ebraic example - change the red value to your desired language (from the list provided)
+}
+?>
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
