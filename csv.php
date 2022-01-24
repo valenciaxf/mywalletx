@@ -3,11 +3,9 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 require_once('session.php');
 include_once ('db/dbConn.php');
 $dbConnX=new dbConn();
-include("homeAndExit.php");
-
 ?>
 <?php
-if(array_key_exists('Submit1', $_POST)) { 
+if(array_key_exists('Submit1', $_POST)) {
 $mydate1 = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : "";
 $mydate2 = isset($_REQUEST["date2"]) ? $_REQUEST["date2"] : "";
 $filename = 'csvReport.csv';
@@ -26,7 +24,7 @@ $filename = 'csvReport.csv';
 // file creation
 $file = fopen($filename,"w");
 
-$headerRows=array("CATEGORY","AMOUNT","QUANTITY","DATE","COMMENT");
+$headerRows=array("CATEGORIA","MONTO","CANTIDAD","FECHA","DESCRIPCION");
 fputcsv($file, $headerRows);
 
 foreach ($user_arr as $line){
@@ -38,7 +36,7 @@ fclose($file);
 // download
 header("Content-Description: File Transfer");
 header("Content-Disposition: attachment; filename=".$filename);
-header("Content-Type: application/csv; "); 
+header("Content-Type: application/csv; ");
 
 readfile($filename);
 
@@ -51,10 +49,11 @@ exit();
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="css/bars.css">
-<link rel="stylesheet" type="text/css" href="css/styleLog2.css">
+  <link rel="stylesheet" type="text/css" href="css/styleLog2.css">
+  <link rel="stylesheet" type="text/css" href="css/home.css">
 
-<title>CSV Report</title>
+
+<title>Reporte CSV</title>
 
 <link href="datePicker/calendar/calendar/calendar.css" rel="stylesheet" type="text/css" />
 <script language="javascript" src="datePicker/calendar/calendar/calendar.js"></script>
@@ -62,12 +61,14 @@ exit();
 </head>
 
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
-
+<?php
+  include("homeAndExit.php");
+?>
 <!--	  <form id="calendarform" name="calendarform" method="post" action="datePicker/calendar/calendar/calendar_form.php"> -->
 <form id="sform" name="calendarform" method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
               <p class="largetxt"><b>Select dates:</b></p>
-              <div style="float: left;">
-                <div style="float: left; padding-right: 3px; line-height: 18px;">from:</div>
+              <div style="float: left;"><br><br>
+                <div style="float: left; padding-right: 3px; line-height: 18px;">Desde:</div>
                 <div style="float: left;">
                   <?php
 				  $startYearCal=date("Y")-50;
@@ -109,8 +110,8 @@ exit();
 					  ?>
                 </div>
               </div>
-              <div style="float: left;">
-                <div style="float: left; padding-left: 3px; padding-right: 3px; line-height: 18px;">to</div>
+              <div style="float: left;"><br><br>
+                <div style="float: left; padding-left: 3px; padding-right: 3px; line-height: 18px;">Hasta:</div>
                 <div style="float: left;">
                   <?php
 					  $myCalendar = new tc_calendar("date2", true, false);
@@ -121,13 +122,13 @@ exit();
 					  $myCalendar->setAlignment('left', 'bottom');
 					  $myCalendar->setDatePair('date1', 'date2', $date1);
 					  $myCalendar->writeScript();
-					  					
+
 				  ?>
                 </div>
               </div>
 			<img width="30" height="12" src="ims/spacer.png">
 
-			<input type="submit" name="Submit1" value="CSV Report"/>
+			<input type="submit" name="Submit1" value="Reporte CSV"/>
 
 </form>
 

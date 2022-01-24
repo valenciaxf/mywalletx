@@ -8,10 +8,10 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html>
 <head>
-<link rel="stylesheet" type="text/css" href="css/bars.css">
-<link rel="stylesheet" type="text/css" href="css/styleLog2.css">
+  <link rel="stylesheet" type="text/css" href="css/styleLog2.css">
+  <link rel="stylesheet" type="text/css" href="css/home.css">
 
-<title>Pie</title>
+<title>Gráfica Pie / Todas las categorías</title>
 
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/Chart.min.js"></script>
@@ -25,17 +25,18 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 
 
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+  <br>
+  <br>
 
-<!--	  <form id="calendarform" name="calendarform" method="post" action="datePicker/calendar/calendar/calendar_form.php"> -->
 <form id="calendarform" name="calendarform" method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
-              <p class="largetxt"><b>Select dates:</b></p>
+              <p class="largetxt"><b>Selecciona las fechas para la consulta:</b></p>
               <div style="float: left;">
-                <div style="float: left; padding-right: 3px; line-height: 18px;">from:</div>
+                <div style="float: left; padding-right: 3px; line-height: 18px;">Desde:</div>
                 <div style="float: left;">
                   <?php
 				  $startYearCal=date("Y")-50;
 				  $endYearCal=date("Y")+50;
-				  
+
 						$thisweek = date('W');
 						$thisyear = date('Y');
 
@@ -66,16 +67,14 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 					  $myCalendar->setDate(date('d', strtotime($date1)), date('m', strtotime($date1)), date('Y', strtotime($date1)));
 					  $myCalendar->setPath("datePicker/calendar/calendar/");
 					  $myCalendar->setYearInterval($startYearCal, $endYearCal);
-					  //$myCalendar->dateAllow('2009-02-20', "", false);
 					  $myCalendar->setAlignment('left', 'bottom');
 					  $myCalendar->setDatePair('date1', 'date2', $date2);
-					  //$myCalendar->setSpecificDate(array("2011-04-01", "2011-04-04", "2011-12-25"), 0, 'year');
 					  $myCalendar->writeScript();
 					  ?>
                 </div>
               </div>
               <div style="float: left;">
-                <div style="float: left; padding-left: 3px; padding-right: 3px; line-height: 18px;">to</div>
+                <div style="float: left; padding-left: 3px; padding-right: 3px; line-height: 18px;">Hasta:</div>
                 <div style="float: left;">
                   <?php
 					  $myCalendar = new tc_calendar("date2", true, false);
@@ -83,20 +82,23 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 					  $myCalendar->setDate(date('d', strtotime($date2)), date('m', strtotime($date2)), date('Y', strtotime($date2)));
 					  $myCalendar->setPath("datePicker/calendar/calendar/");
 					  $myCalendar->setYearInterval($startYearCal, $endYearCal);
-					  //$myCalendar->dateAllow("", '2009-11-03', false);
 					  $myCalendar->setAlignment('left', 'bottom');
 					  $myCalendar->setDatePair('date1', 'date2', $date1);
-					  //$myCalendar->setSpecificDate(array("2011-04-01", "2011-04-04", "2011-12-25"), 0, 'year');
 					  $myCalendar->writeScript();
-					  
+
 					  ?>
                 </div>
               </div>
-<img width="30" height="12" src="ims/spacer.png">				
-			<input type="submit" name="Submit1" value="Submit" />
-			
-			  
-            </form>
+<img width="30" height="12" src="ims/spacer.png">
+
+<img width="30" height="12" src="ims/spacer.png">
+<img width="30" height="12" src="ims/spacer.png">
+<img width="30" height="12" src="ims/spacer.png">
+
+			<input type="submit" name="Submit1" value="Consultar" />
+
+
+</form>
 
 <?php
 $mydate1 = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : "";
@@ -124,7 +126,7 @@ $mydate2 = isset($_REQUEST["date2"]) ? $_REQUEST["date2"] : "";
                     console.log(data);
                      var category = [];
                     var sumCat = [];
-					
+
                     for (var i in data) {
                         category.push(data[i].cat_name);
                         sumCat.push(data[i].sumAx);
@@ -155,7 +157,6 @@ $mydate2 = isset($_REQUEST["date2"]) ? $_REQUEST["date2"] : "";
             }
         }
         </script>
-        		
+
 </body>
 </html>
-

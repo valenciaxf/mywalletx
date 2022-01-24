@@ -3,7 +3,7 @@
 CSS Settings For HTML Div ExactCenter
 ------------------------------------------------*/
 #main {
-width:960px;
+width:100%;
 margin:50px auto;
 font-family:raleway
 }
@@ -45,7 +45,7 @@ input[type=submit] {
 width:100%;
 background-color:#00c3e6;
 color:#fff;
-border:2px solid #00c3e6;
+border:2px solid #356972;
 padding:10px;
 font-size:20px;
 cursor:pointer;

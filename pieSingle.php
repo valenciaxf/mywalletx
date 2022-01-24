@@ -8,10 +8,10 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html>
 <head>
-<link rel="stylesheet" type="text/css" href="css/bars.css">
-<link rel="stylesheet" type="text/css" href="css/styleLog2.css">
+  <link rel="stylesheet" type="text/css" href="css/styleLog2.css">
+  <link rel="stylesheet" type="text/css" href="css/home.css">
 
-<title>Pie</title>
+<title>Gráfica Pie / Por categoría específica</title>
 
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/Chart.min.js"></script>
@@ -24,12 +24,14 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 </head>
 
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+  <br>
+  <br>
 
-<legend>#Select a category and then clic in the required dates</legend>
-<div id="apDivLeft" class="border">
-<span class="class"> 
 <br>
-<img src="ims/addCategory.png" alt="Categories..." width=50 height=50 title="Categories">
+<div id="apDivLeft" class="border">
+<span class="class">
+<br>
+<img src="ims/addCategory.png" alt="Categorías..." width=50 height=50 title="Categories">
 </span>
 <?php
 require_once ('db/dbConn.php');
@@ -54,8 +56,8 @@ if(isset($_GET['cat_ID']) && $_GET['cat_name']){
 	//?cat_name=Food&cat_ID=1
 	$myCategory=$cat_ID;
 }else{
-	$category = "There is not category selected...";
-    $titulo = "All Items...";
+	$category = "No hay ninguna categoría seleccionada.";
+    $titulo = "Todos los Items...";
 	$myCategory="";
 }
 
@@ -65,16 +67,19 @@ if(isset($_GET['cat_ID']) && $_GET['cat_name']){
 
 
 <div id="apDivRigth">
+<br><br>
+<legend>Selecciona la categoría que deseas consultar y después elije las fechas para la consulta.</legend>
+
 <!--	  <form id="calendarform" name="calendarform" method="post" action="datePicker/calendar/calendar/calendar_form.php"> -->
 <form id="calendarform" name="calendarform" method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
-              <p class="largetxt"><b>Select dates:</b></p>
+              <p class="largetxt"><b>Selecciona las fechas para la consulta:</b></p>
               <div style="float: left;">
-                <div style="float: left; padding-right: 3px; line-height: 18px;">from:</div>
+                <div style="float: left; padding-right: 3px; line-height: 18px;">Desde:</div>
                 <div style="float: left;">
                   <?php
 				  $startYearCal=date("Y")-50;
 				  $endYearCal=date("Y")+50;
-				  
+
 						$thisweek = date('W');
 						$thisyear = date('Y');
 
@@ -114,7 +119,7 @@ if(isset($_GET['cat_ID']) && $_GET['cat_name']){
                 </div>
               </div>
               <div style="float: left;">
-                <div style="float: left; padding-left: 3px; padding-right: 3px; line-height: 18px;">to</div>
+                <div style="float: left; padding-left: 3px; padding-right: 3px; line-height: 18px;">Hasta:</div>
                 <div style="float: left;">
                   <?php
 					  $myCalendar = new tc_calendar("date2", true, false);
@@ -127,14 +132,14 @@ if(isset($_GET['cat_ID']) && $_GET['cat_name']){
 					  $myCalendar->setDatePair('date1', 'date2', $date1);
 					  //$myCalendar->setSpecificDate(array("2011-04-01", "2011-04-04", "2011-12-25"), 0, 'year');
 					  $myCalendar->writeScript();
-					  
+
 					  ?>
                 </div>
               </div>
-<img width="30" height="12" src="ims/spacer.png">				
-			<input type="submit" name="Submit1" value="Submit" />
-			
-			  
+<img width="30" height="12" src="ims/spacer.png">
+			<input type="submit" name="Submit1" value="Consultar" />
+
+
             </form>
 
 <?php
@@ -164,7 +169,7 @@ $mydate2 = isset($_REQUEST["date2"]) ? $_REQUEST["date2"] : "";
                     console.log(data);
                      var description = [];
                     var itemAmount = [];
-					
+
                     for (var i in data) {
                         description.push(data[i].item_description);
                         itemAmount.push(data[i].amount);
@@ -175,7 +180,7 @@ $mydate2 = isset($_REQUEST["date2"]) ? $_REQUEST["date2"] : "";
                         labels: description,
                         datasets: [
                             {
-                                label: 'Item Detail',
+                                label: 'Detalles de Items',
                                 backgroundColor: '#49e2ff',
                                 borderColor: '#46d5f1',
                                 hoverBackgroundColor: '#CCCCCC',

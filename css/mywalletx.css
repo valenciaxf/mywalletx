@@ -38,9 +38,6 @@ background:#fff;
 color:#09C;
 }
 
-
-
-
 #pagHeader {
     background-image: url("ims/xBackground.png");
     display: block;
@@ -48,7 +45,6 @@ color:#09C;
     margin: 0;
     padding: 0;
 }
-
 
 #pagHeaderLogo {
     border: 0 none;

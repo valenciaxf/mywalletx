@@ -11,6 +11,7 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 <link href="css/status.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="css/bars.css">
 <link rel="stylesheet" type="text/css" href="css/item.css">
+<link rel="stylesheet" type="text/css" href="css/home.css">
 
 
 <link href="datePicker/calendar/calendar/calendar.css" rel="stylesheet" type="text/css" />
@@ -20,7 +21,7 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 </head>
 
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
-
+<br>
 <?php
 // include db connection...
 require_once ('db/dbConn.php');
@@ -33,11 +34,11 @@ include("homeAndExit.php");
 
 <form name="categoria" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
     <p>
-   <legend> #Current Status</legend>
+   <legend> Status actual</legend>
    </p>
 
 <?php
-	echo "You got this month: ";
+	echo "Ingresos del mes actual: ";
 	$sum1=$dbConnX->getAvailableAmountCurrentMonth($user_id_session);
 ?>
 	<i>
@@ -45,9 +46,8 @@ include("homeAndExit.php");
 		echo $sum1;
 	?>
 	</i>
-<br>
 <?php
-echo "You have spent this month (until now): ";
+echo " y ocupado (hasta ahora): ";
 	$sum2=$dbConnX->getSpentCurrentMonth($user_id_session);
 ?>
 	<i>
@@ -58,7 +58,7 @@ echo "You have spent this month (until now): ";
 <br>
 <?php
 $available=$sum1-$sum2;
-echo "You have available: ";
+echo "Disponible actualmente: ";
 ?>
 	<i>
 	<?php
@@ -73,21 +73,27 @@ $lastDay=$dbConnX->getMonthLastDay();
 $currentDay=(int)date("d");
 
 $restDays=(int)$lastDay-$currentDay;
-$avgAvailable=$available/$restDays;
 
-echo "This month have: ".$lastDay." days, so You can use daily aprox. for next ". $restDays." days: ";
+if ($restDays==0) {
+        echo "Este mes tiene ".$lastDay." días, hoy es el último día del mes, puedes usar: ";
+        $avgAvailable=$available/1;
+} else {
+        $avgAvailable=$available/$restDays;
+        echo "Este mes tiene ".$lastDay." días, puedes usar diariamente por los próximos ". $restDays." días: ";
+}
+
 ?>
-	<i>
-	<?php
-		echo number_format((float)$avgAvailable, 2, '.', '');
-	?>
-	</i>
+<i>
+<?php
+   echo number_format((float)$avgAvailable, 2, '.', '');
+?>
+</i>
 
 <br>
 <br>
 <br>
    <p>
-   <legend> #Current Status (With Savings)</legend>
+   <legend> Status actual (contemplando ahorro)</legend>
    </p>
 
 <?php
@@ -95,26 +101,25 @@ $sumMonthSavings = $dbConnX->getSavingAmount($user_id_session);
 $availableAfterSavings=($available-$sumMonthSavings);
 $avgAvailable=$availableAfterSavings/$restDays;
 
-echo "You can use aprox. for next ".$restDays." days: ";
+echo "Puedes usar aproximadamente por los siguientes ".$restDays." días: ";
 ?>
-	<i>
-	<?php
-		echo number_format((float)$avgAvailable, 2, '.', '');
-	?>
-	</i>
+<i>
+<?php
+   echo number_format((float)$avgAvailable, 2, '.', '');
+?>
+</i>
 <br>
 
 <?php
-echo "Available after savings: "
+echo "Disponible después de ahorro: "
 ?>
-   <i>
-   <?php
-		echo $availableAfterSavings;
-   ?>
-   </i>
-    </p>
+<i>
+<?php
+   echo $availableAfterSavings;
+?>
+</i>
+</p>
 </form>
 
 </body>
 </html>
-

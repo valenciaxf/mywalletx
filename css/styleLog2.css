@@ -3,7 +3,7 @@
 CSS Settings For HTML Div ExactCenter
 ------------------------------------------------*/
 #main {
-width:960px;
+width:100%;
 margin:50px auto;
 font-family:raleway
 }

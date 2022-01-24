@@ -2,34 +2,20 @@
 require_once('session.php');
 ?>
 <?php
-//require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
-require_once('datePicker/calendar/calendar/tc_calendar.php');
+require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 ?>
-
-<?php
-// Request selected language
-$hl = (isset($_POST["hl"])) ? $_POST["hl"] : false;
-if(!defined("L_LANG") || L_LANG == "L_LANG")
-{
-	if($hl) define("L_LANG", $hl);
-
-	// You need to tell the class which language you want to use.
-	// L_LANG should be defined as en_US format!!! Next line is an example, just put your own language from the provided list
-	else define("L_LANG", "es_ES"); // Ebraic example - change the red value to your desired language (from the list provided)
-}
-?>
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/flexigrid.css">
 <script type="text/javascript" src="jquery/jquery-1.5.2.min.js"></script>
 <script type="text/javascript" src="js/flexigrid.js"></script>
+
 <link rel="stylesheet" type="text/css" href="css/homeFG.css">
 
 <script language="javascript" src="datePicker/calendar/calendar/calendar.js"></script>
 <link href="datePicker/calendar/calendar/calendar.css" rel="stylesheet" type="text/css" />
+<link href="css/styleFgResume.css" rel="stylesheet" type="text/css">
 
 <title>Get Items...</title>
 
@@ -40,20 +26,20 @@ if(!defined("L_LANG") || L_LANG == "L_LANG")
 
 
 <div class="formdata">
-<div class="formtitle"> <a href='myWalletX.php'> Refresh </a> </div>
+<div class="formtitle"> <a href='myWalletX.php'> Actualizar </a> </div>
 <div class="formbody">
 
 <!--<form id="sform" name="calendarform" method="post" action="getItemsWithFGFeeder.php"> -->
 <form id="calendarform" action="getItemsWithFGFeeder.php" method="post">
 
-              <p class="largetxt"><b>Dates: </b></p>
+              <p class="largetxt"><b>Fechas de consulta </b></p>
               <div style="float: left;">
-                <div style="float: left; padding-right: 3px; line-height: 18px;">From:</div>
+                <div style="float: left; padding-right: 3px; line-height: 18px;">Desde: </div>
                 <div style="float: left;">
                   <?php
 				  $startYearCal=date("Y")-50;
 				  $endYearCal=date("Y")+50;
-				  
+
 						$thisweek = date('W');
 						$thisyear = date('Y');
 
@@ -62,8 +48,8 @@ if(!defined("L_LANG") || L_LANG == "L_LANG")
 
 						//$date1 = date('Y-m-d', $dayTimes[0]);
 						//$date2 = date('Y-m-d', $dayTimes[(sizeof($dayTimes)-1)]);
-						
-						
+
+
 						$date1 = date('d-m-Y', $dayTimes[0]);
 						$date2 = date('d-m-Y', $dayTimes[(sizeof($dayTimes)-1)]);
 
@@ -95,7 +81,7 @@ if(!defined("L_LANG") || L_LANG == "L_LANG")
                 </div>
               </div>
               <div style="float: left;">
-                <div style="float: left; padding-left: 3px; padding-right: 3px; line-height: 18px;"> To</div>
+                <div style="float: left; padding-left: 3px; padding-right: 3px; line-height: 18px;"> Hasta: </div>
                 <div style="float: left;">
                   <?php
 					  $myCalendar = new tc_calendar("date2", true, false);
@@ -106,35 +92,34 @@ if(!defined("L_LANG") || L_LANG == "L_LANG")
 					  $myCalendar->setAlignment('left', 'bottom');
 					  $myCalendar->setDatePair('date1', 'date2', $date1);
 					  $myCalendar->writeScript();
-					  
+
 					  ?>
                 </div>
               </div>
 				<br><br>
-				<input type="submit" name="Submit1" value="Submit" />
+				<input type="submit" name="Submit1" value="Consultar" />
 
 <input type="hidden" name="Language" value="English">
 <input type="hidden" name="Language" value="English">
-		  
-            </form>
+
+ </form>
 
 </div>
-</div>			
+</div>
 
 <?php
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if(isset($_GET['cat_ID']) && $_GET['cat_name']){
-    // asignamos los valores
-    // a las variables que usaremos
+if (isset($_GET['cat_ID']) && $_GET['cat_name']) {
     $cat_ID = $_GET['cat_ID'];
     $category = $_GET['cat_name'];
-	$whereFilter = " AND ite_category = '$cat_ID'";
-    $titulo = "Items from category: $category";
-}else{
-	$category = "There is not category selected...";
-    $titulo = "All Items...";
+    $whereFilter = " AND ite_category = '$cat_ID'";
+    $titulo = "Items de la categoría: $category";
+} else {
+    $category = "No hay categoría seleccionada...";
+    $titulo = "Todos los Items...";
 }
+
 
 ?>
 <table id="flex1" style="display:none"></table>
@@ -151,7 +136,7 @@ function GetUrlValue(VarSearch){
         }
     }
 }
- 
+
 function GetFeederURL() {
 //validation, if there is no parameter for get from URL...
 if ((GetUrlValue('cat_name')==undefined) && (GetUrlValue('cat_name')==undefined)) {
@@ -160,23 +145,24 @@ if ((GetUrlValue('cat_name')==undefined) && (GetUrlValue('cat_name')==undefined)
 
 return 'getItemsWithFGFeeder.php?cat_name='+GetUrlValue('cat_name')+'&cat_ID='+GetUrlValue('cat_ID');
 }
- 
+
 </script>
 
 <script type="text/javascript">
- 
+
 $("#flex1").flexigrid({
         url: GetFeederURL(),
         dataType: 'json',
         colModel : [
-                {display: 'Category', name : 'cat_name', width : 180, sortable : true, align: 'left'},
-                {display: 'Total Amount', name : 'ite_totalAmount', width : 120, sortable : true, align: 'left'},
-                {display: 'Quantity', name : 'ite_quantity', width : 130, sortable : true, align: 'left', hide: true},
-                {display: 'Date', name : 'ite_date', width : 80, sortable : true, align: 'right'},
-				{display: 'Comment', name : 'ite_comment', width : 210, sortable : true, align: 'left'}
+                {display: 'Categoría', name : 'cat_name', width : 180, sortable : true, align: 'left'},
+                {display: 'Monto Total', name : 'ite_totalAmount', width : 120, sortable : true, align: 'left'},
+                {display: 'Cantidad', name : 'ite_quantity', width : 81, sortable : true, align: 'left', hide: true},
+                {display: 'Fecha', name : 'ite_date', width : 80, sortable : true, align: 'right'},
+				{display: 'Descripción', name : 'ite_comment', width : 252, sortable : true, align: 'left'}
                 ],
         //searchitems : [
-			  //  {display: 'Comment', name : 'ite_comment'} /*,*/
+              //  {display: 'Descripción', name : 'ite_comment'} /*,*/
+
                 //],
         sortname: "ite_date",
         sortorder: "desc",
@@ -188,20 +174,21 @@ $("#flex1").flexigrid({
         width: 800,
         onSubmit: addFormData,
 		//////////////////////////
-		qtype: "Category", //Search By Category...
+		//qtype: "Category", //Search By Category...
 		//query: "Transport",   //Value to Search...
-		//////////////////////////
+    //////////////////////////
+    striped:true,
         height: 200
 });
 
-//This function adds paramaters to the post of flexigrid. You can add a verification as well by return to false if you don't want flexigrid to submit                   
+//This function adds paramaters to the post of flexigrid. You can add a verification as well by return to false if you don't want flexigrid to submit
 function addFormData(){
         //passing a form object to serializeArray will get the valid data from all the objects, but, if the you pass a non-form object, you have to specify the input elements that the data will come from
         var dt = $('#calendarform').serializeArray();
         $("#flex1").flexOptions({params: dt});
         return true;
 }
-        
+
 $('#calendarform').submit(function (){
         $('#flex1').flexOptions({newp: 1}).flexReload();
         return false;
@@ -243,8 +230,8 @@ function loadJSON()
         // jsonObj variable now contains the data structure.
         document.getElementById("sqlSumINTotal").innerHTML =  jsonObj.sqlSumINTotal;
         document.getElementById("sqlSumOUTTotal").innerHTML = jsonObj.sqlSumOUTTotal;
-		
-		document.getElementById("rDates").innerHTML = "From: "+document.getElementById("date1").value+"      To: "+document.getElementById("date2").value+"";
+
+		document.getElementById("rDates").innerHTML = "Desde: "+document.getElementById("date1").value+"      Hasta: "+document.getElementById("date2").value+"";
       }
    }
    //http_request.open("GET", data_file, true);
@@ -254,17 +241,23 @@ function loadJSON()
     http_request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	http_request.send("date1="+document.getElementById("date1").value+"&date2="+document.getElementById("date2").value+"");
 }
+
 </script>
 
 <table class="src">
-<tr><th>IN Total: <div id="sqlSumINTotal">   </div></th><th>OUT Total: <div id="sqlSumOUTTotal">   </div></th></tr>
+<tr><th>Ingreso Total: <div id="sqlSumINTotal">   </div></th><th>Egreso Total: <div id="sqlSumOUTTotal">   </div></th></tr>
 <tr><td></td>
 <td></td></tr>
 </table>
 
-<div id="rDates">  </div>
+<div id="rDates"> 
+</div>
+
+<div id="apDivResume">
+<input type="submit" onclick="loadJSON()"  value="Balance">
+</div>
+
 <div class="central">
-<button type="button" onclick="loadJSON()" class="button">Get Summary</button>
 
 </body>
 </html>

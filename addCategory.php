@@ -4,6 +4,10 @@ require_once('session.php');
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="css/bars.css">
+<link rel="stylesheet" type="text/css" href="css/item.css">
+<link rel="stylesheet" type="text/css" href="css/home.css">
+
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" />
@@ -33,36 +37,34 @@ $dbConnX=new dbConn();
 
 include("homeAndExit.php");
 
-if(isset($_POST['enviar']) && $_POST['enviar'] == 'Save'){
+if(isset($_POST['enviar']) && $_POST['enviar'] == 'Guardar'){
     // validate empty fields...
     if(!empty($_POST['catCategory']) && !empty($_POST['catDescription']) && !empty($_POST['catType'])){
         // init vars...
-        $catCategory = $_POST['catCategory'];
-		$catDescription = $_POST['catDescription'];
-		$catType = $_POST['catType'];
+        $catCategory = $dbConnX->cleanInput($_POST['catCategory']);
+		$catDescription = $dbConnX->cleanInput($_POST['catDescription']);
+		$catType = $dbConnX->cleanInput($_POST['catType']);
 
-		//echo " ".$catCategory." ".$catDescription." ".$catType;
-
-		$catCategory = stripslashes($catCategory);
-		$catDescription = stripslashes($catDescription);
-		$catType = stripslashes($catType);
-		$catCategory = mysqli_real_escape_string($dbConnX->connX, $catCategory);
-		$catDescription = mysqli_real_escape_string($dbConnX->connX, $catDescription);
-		$catType = mysqli_real_escape_string($dbConnX->connX, $catType);
-
-       // insert...
-		$sqlInsertCat=$dbConnX->insertCategory($catCategory,$catDescription,$catType,$user_id_session);
-        // confirm...
-    echo "<div class='alert alert-success' role='alert'>
-    <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-    <strong>The Category has been registered (".$catCategory.") has been registered...</strong>
-    </div>";
+    mysqli_report(MYSQLI_REPORT_STRICT | MYSQLI_REPORT_ALL);
+    try {
+              		$sqlInsertCat=$dbConnX->insertCategory($catCategory,$catDescription,$catType,$user_id_session);
+              	  // confirm...
+                  echo "<div class='alert alert-success' role='alert'>
+                  <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+                  <strong>La categoría ha sido registrada (".$catCategory.")...</strong>
+                  </div>";
+    } catch (mysqli_sql_exception  $e) {
+                  echo "<div class='alert alert-danger' role='alert'>
+                  <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+                  <strong>Ha ocurrido una excepción, favor de reportar el evento, para continuar presione el icono de Home...</strong>
+                  </div>";
+    }
 
     }else{
-    echo "<div class='alert alert-success' role='alert'>
-    <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-    <strong>You must fill all the fields...</strong>
-    </div>";
+                echo "<div class='alert alert-warning' role='alert'>
+                <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+                <strong>Es necesario llenar todos los campos...</strong>
+                </div>";
     }
 }
 ?>
@@ -70,26 +72,26 @@ if(isset($_POST['enviar']) && $_POST['enviar'] == 'Save'){
 
 <form id="sform" name="categoria" action="<?php $_SERVER['PHP_SELF']; ?>" method="post">
     <p>
-   <legend> Add Category</legend>
+   <legend> Añadir Categoría</legend>
    </p>
    <p>
-    Name<br>
-     <input type="text" name="catCategory" />
+    Nombre<br>
+     <input type="text" size="15" name="catCategory" minlength="1" maxlength="45" title="Al menos 1 carácter, máximo 45" />
      <br><br>
     </p>
     <p>
-    Description<br />
-    <textarea name="catDescription" rows="10" cols="60"></textarea>
+    Descripción<br />
+    <textarea name="catDescription" rows="9" cols="60" minlength="3" maxlength="99" title="Al menos tres carácteres, máximo 99"></textarea>
     </p>
     <p>
 
-	Type<br>
+	Tipo<br>
 		<select name="catType">
-		<option value="OUT" name="out"> OUT </option>
-		<option value="IN" selected="selected" name="in"> IN </option>
+		<option value="OUT" name="out"> Egreso </option>
+		<option value="IN" selected="selected" name="in"> Ingreso </option>
 		</select><br><br>
 
-	    <input type="submit" name="enviar" value="Save" class="button"/>
+	    <input type="submit" name="enviar" value="Guardar" class="button"/>
 
     </p>
 </form>
