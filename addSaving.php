@@ -75,7 +75,7 @@ if(isset($_POST['enviar']) && $_POST['enviar'] == 'Guardar'){
     <p>
    <legend> Registrar Ahorro</legend></p>
    <p>
-    Especifica el monto del ahorro<br>
+    Especifica el monto del ahorro (mensual o quincenal según tus percepciones)<br>
      <input type="text" name="savAmount" pattern="\d+(\.\d{2})?" title="Formato: 9999999999.99 (dos decimales)"/>
      <br>
     </p>
@@ -98,7 +98,7 @@ echo "<p>
 title=Get Current Status!''></a>
 </p>";
 echo "<br>";
-echo "Hasta el momento se tiene el registro de ahorro mensual siguiente:";
+echo "Hasta el momento se tiene el registro de ahorro siguiente:";
 echo "<br>";
 
 ?>

@@ -38,8 +38,11 @@ include("homeAndExit.php");
    </p>
 
 <?php
-	echo "Ingresos del mes actual: ";
-	$sum1=$dbConnX->getAvailableAmountCurrentMonth($user_id_session);
+	echo "Ingresos de la quincena actual (iniciando el ";
+	$startAx=date('01-m-Y');
+	echo $startAx;
+	echo ")";
+	$sum1=$dbConnX->getAvailableAmountCurrent15($user_id_session);
 ?>
 	<i>
 	<?php
@@ -48,7 +51,7 @@ include("homeAndExit.php");
 	</i>
 <?php
 echo " y ocupado (hasta ahora): ";
-	$sum2=$dbConnX->getSpentCurrentMonth($user_id_session);
+	$sum2=$dbConnX->getSpentCurrent15($user_id_session);
 ?>
 	<i>
 	<?php
@@ -72,14 +75,20 @@ echo "Disponible actualmente: ";
 $lastDay=$dbConnX->getMonthLastDay();
 $currentDay=(int)date("d");
 
-$restDays=(int)$lastDay-$currentDay;
+if (($currentDay >= 1) and ($currentDay<=14))
+{ 
+	$restDays=15-$currentDay;
+} else {
+	$restDays=$lastDay-$currentDay;
+}
+
 
 if ($restDays==0) {
-        echo "Este mes tiene ".$lastDay." días, hoy es el último día del mes, puedes usar: ";
+        echo "Hoy es el último día de la quincena, puedes usar: ";
         $avgAvailable=$available;
 } else {
         $avgAvailable=$available/$restDays;
-        echo "Este mes tiene ".$lastDay." días, puedes usar diariamente por los próximos ". $restDays." días: ";
+        echo "Puedes usar diariamente por los próximos ". $restDays." días: ";
 }
 
 ?>
@@ -118,10 +127,6 @@ echo "Disponible después de ahorro: "
    echo $availableAfterSavings;
 ?>
 </i>
-<br><br>
-<br>
-
-<a href="getCurrentStatus15.php"><<< Da clic aquí para consultar el status por periodo quincenal >>> </a>
 
 </p>
 </form>

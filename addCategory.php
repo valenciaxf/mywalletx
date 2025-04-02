@@ -76,7 +76,7 @@ if(isset($_POST['enviar']) && $_POST['enviar'] == 'Guardar'){
    </p>
    <p>
     Nombre<br>
-     <input type="text" size="15" name="catCategory" minlength="1" maxlength="45" title="Al menos 1 carácter, máximo 45" />
+     <input type="text" size="60" name="catCategory" minlength="1" maxlength="45" title="Al menos 1 carácter, máximo 45" />
      <br><br>
     </p>
     <p>

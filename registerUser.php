@@ -182,7 +182,7 @@ if(isset($_POST['enviar']) && $_POST['enviar'] == 'Registrar'){
     try {
 				if (strcmp($pwd1, $pwd2)==0)
 				{
-    						$sqlInsertCat=$dbConnX->registerUser($username,$pwd1,$contactNumberFrm,$namesInFrm,$lnFrm1,$lnFrm2,$mlFrm,$fbkFrm,$monthsFrm);
+    						$sqlInsertCat=$dbConnX->registerUser($user_id_session,$username,$pwd1,$contactNumberFrm,$namesInFrm,$lnFrm1,$lnFrm2,$mlFrm,$fbkFrm,$monthsFrm);
 
 						  // confirm...
 							  echo "<div class='alert alert-success' role='alert'>

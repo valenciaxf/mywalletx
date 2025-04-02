@@ -2,11 +2,11 @@
 date_default_timezone_set('America/Mexico_City');
 
 define('DB_SERVER','localhost');
-define('DB_USER','walletuser');
+//define('DB_USER','walletuser');
 define('DB_PASS' ,'passPass32#.');
-//define('DB_USER','id13563311_walletuser');
-define('DB_NAME', 'mywalletx');
-//define('DB_NAME', 'id13563311_mywalletx');
+define('DB_USER','id13563311_mywalletx');
+//define('DB_NAME', 'mywalletx');
+define('DB_NAME', 'id13563311_newone');
 
 class dbConn
 {
@@ -296,6 +296,47 @@ class dbConn
 					 }
 	}
 
+	public function getAvailableAmountCurrent15($user_id)
+	{
+		$currentURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+		$currentDay=(int)date("d");
+		if (($currentDay >= 1) and ($currentDay<=14))
+		{ 
+			$startAx=date('01-m-Y');
+		} else {
+			$startAx=date('15-m-Y');
+		}
+
+		mysqli_report(MYSQLI_REPORT_STRICT);
+		try {
+								$sql = "SELECT SUM(ite_totalAmount) FROM item where ite_category in (select cat_id from category where cat_type='IN' and user_id='$user_id')
+									and (ite_date >= str_to_date('$startAx','%d-%m-%Y')
+									and user_id='$user_id')";
+								$res = mysqli_query($this->connX,$sql);
+								$row = mysqli_fetch_row($res);
+								$sum1 = $row[0];
+								$ret = $sum1;
+
+								return $ret;
+						} catch (mysqli_sql_exception  $e) {
+																						//echo "Exception detected!";
+																						//echo "Error caught: " . $e->getMessage();
+																						$error_msg = $e->getMessage();
+																						$error_msg = stripslashes($error_msg);
+																						$error_msg = mysqli_real_escape_string($this->connX,$error_msg);
+																						$error_msg = substr($error_msg,0,255);
+																						$currentURL = substr($currentURL,0,255);
+
+																						$ret2=mysqli_query($this->connX,"INSERT INTO error_log_mwx
+																																							(user_id, error_msg, url, function_code)
+																																							VALUES ('$user_id', '$error_msg', '$currentURL','getAvailableAmountCurrentMonth')");
+															//							$this->closeConnX();
+																						throw $e;
+					 }
+	}
+
+
 	public function getSpentCurrentMonth($user_id)
 	{
 		$currentURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -306,6 +347,35 @@ class dbConn
 								$sql = "SELECT SUM(ite_totalAmount) FROM item where ite_category in (select cat_id from category where cat_type='OUT' and user_id='$user_id')
 										and (year(curdate()) = year(ite_date)
 										and month(curdate()) = month(ite_date)
+										and user_id='$user_id')";
+								$res = mysqli_query($this->connX,$sql);
+								$row = mysqli_fetch_row($res);
+								$sum2 = $row[0];
+								$ret = $sum2;
+
+								return $ret;
+		} catch (mysqli_sql_exception  $e) {
+			$this->recordLog  ($e,$currentURL,'getSpentCurrentMonth',$user_id);
+		}
+	}
+
+	public function getSpentCurrent15($user_id)
+	{
+		$currentURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+		$currentDay=(int)date("d");
+		if (($currentDay >= 1) and ($currentDay<=14))
+		{ 
+			$startAx=date('01-m-Y');
+		} else {
+			$startAx=date('15-m-Y');
+		}
+
+		mysqli_report(MYSQLI_REPORT_STRICT);
+		try {
+								//$user_id=$this->getCurrentUser($login_session);
+								$sql = "SELECT SUM(ite_totalAmount) FROM item where ite_category in (select cat_id from category where cat_type='OUT' and user_id='$user_id')
+										and (ite_date >= str_to_date('$startAx','%d-%m-%Y')
 										and user_id='$user_id')";
 								$res = mysqli_query($this->connX,$sql);
 								$row = mysqli_fetch_row($res);
@@ -521,7 +591,7 @@ class dbConn
 
 	}
 
-	public function registerUser($usrnamePrmtr,$prmtrPass,$prmtrcontact_number,$prmtrnames,$prmtrlast1,$prmtrlast2,$prmtrmail,$prmtrfb,$prmtrmonths)
+	public function registerUser($user_id,$usrnamePrmtr,$prmtrPass,$prmtrcontact_number,$prmtrnames,$prmtrlast1,$prmtrlast2,$prmtrmail,$prmtrfb,$prmtrmonths)
 	{
 		$currentURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
@@ -576,7 +646,7 @@ class dbConn
 
 							//by default starts in current date...
 							$insertUsrPssprt="INSERT INTO passport_mwx (end_date, active, user_id) VALUES
-							(DATE_ADD(CURDATE(), INTERVAL '$prmtrmonths' MONTH),1, $usrIdAx)";
+							(STR_TO_DATE(DATE_ADD(CURDATE(), INTERVAL '$prmtrmonths' MONTH),'%Y-%m-%d'),1, $usrIdAx)";
 
 							$retinsertUsrPssprt=mysqli_query($this->connX,$insertUsrPssprt);
 

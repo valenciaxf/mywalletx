@@ -9,7 +9,7 @@ if (empty($user)) {
      $email = $user['mail'];
 }
 
-$default = "https://myxwallet.000webhostapp.com/mywalletX/ims/settings.png";
+$default = "ims/settings.png";
 $size = 42;
 
 $grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;

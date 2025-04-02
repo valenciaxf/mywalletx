@@ -85,11 +85,11 @@ if(isset($_POST['enviar']) && $_POST['enviar'] == 'Guardar'){
 <legend>Registrar Item  </legend>
 <p>
     Monto<br />
-    <input type="text" name="iteTotalAmount" size="15" pattern="\d+(\.\d{2})?" title="Formato: 9999999999.99 (dos decimales)"/>
+    <input type="text" name="iteTotalAmount" size="60" pattern="\d+(\.\d{2})?" title="Formato: 9999999999.99 (dos decimales)"/>
     </p>
 	<p>
     Cantidad<br />
-    <input type="number" min="1" max="9999999999" name="iteQuantity" size="15" pattern="\d?" title="Formato: 9999999999 (Números)"/>
+    <input type="number" value=1 min="1" max="9999999999" name="iteQuantity" size="60" pattern="\d?" title="Formato: 9999999999 (Números)"/>
     </p>
     <p>
 	Fecha<br />
