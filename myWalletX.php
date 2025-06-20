@@ -4,165 +4,146 @@ include('session.php');
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
+
 <head>
-<link rel="stylesheet" type="text/css" href="css/home.css">
-<link rel="stylesheet" type="text/css" href="css/currentDay.css">
-<title>MyWalletX</title>
+  <link rel="stylesheet" type="text/css" href="css/home.css">
+  <link rel="stylesheet" type="text/css" href="css/currentDay.css">
+  <title>MyWalletX</title>
 
-<link rel="apple-touch-icon" sizes="76x76" href="ims/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="ims/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="ims/favicon-16x16.png">
-<link rel="manifest" href="ims/site.webmanifest">
-<link rel="shortcut icon" href="ims/favicon.ico">
-<meta name="msapplication-TileColor" content="#da532c">
-<meta name="msapplication-config" content="ims/browserconfig.xml">
-<meta name="theme-color" content="#ffffff">
+  <link rel="apple-touch-icon" sizes="76x76" href="ims/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="ims/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="ims/favicon-16x16.png">
+  <link rel="manifest" href="ims/site.webmanifest">
+  <link rel="shortcut icon" href="ims/favicon.ico">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-config" content="ims/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
 
-<style>
-.dropbtn {
-  background-color: #4CAF50;
-  background-image:url('ims/settings.png') no-repeat 25% 50% #FF8800;
-  background: #92c7eb; background-image: url("ims/settings.png"); 
-  background-size: cover; background-position: center; display: inline-block; 
-  border: none; padding: 20px; width: 21px; border-radius: 900px; height: 21px; 
-  transition: all 0.5s; cursor: pointer;}.btn:hover{ width: 21px; height: 21px;
-  color: white;
-  padding: 9px;
-  font-size: 9px;
-  border: none;
-}
+  <link rel="stylesheet" type="text/css" href="css/main.css">
 
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown-content a:hover {background-color: #ddd;}
-
-.dropdown:hover .dropdown-content {display: block;}
-
-.dropdown:hover .dropbtn {background-color: #3e8e41;}
-
-</style>
 </head>
+
 <body>
-<?php
-    include("homeAndExit.php");
-?>
+<p>
+  <div STYLE="position:absolute; TOP:72px; LEFT:945px" title="PDF Report">PDF</div>
+  <a href="pdf.php">
+    <img STYLE="position:absolute; TOP:93px; LEFT:945px;" src="ims/pdf.png" alt="PDF Report" width="27" height="27"
+      title="PDF Report"></a>
+  </p>
+
+  <p>
+  <div STYLE="position:absolute; TOP:72px; LEFT:990px">CSV</div>
+  <a href="csv.php"><br>
+    <img STYLE="position:absolute; TOP:93px; LEFT:990px" src="ims/xls.png" alt="CSV Report" width="27" height="27"
+      title="CSV Report"></a>
+  <br>
+  </p>
 
 
-<?php
-require_once('db/dbConn.php');
+  <div id="apDivBanner" class="border">  </div>
 
-$days = array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
-$months = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto",
-                "Septiembre","Octubre","Noviembre","Diciembre");
-?>
 
-<div id="apDivLeft" class="border">
 
-  <?php include('getCategories.php'); ?>
 
-</div>
+  <?php
+  include("homeAndExit.php");
+  ?>
 
-<div id="apDivJoinRigth" class="border"></div>
 
-<div id="apDivMiddle">
-<br>
-<div class="dropdown">
-  <button class="dropbtn"></button>
-  <div class="dropdown-content">
-    <a href="changeUserPass.php">Password</a>
-    <a href="pdf/CrearGravatar.pdf">Avatar</a>
+  <?php
+  require_once('db/dbConn.php');
+
+  $days = array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
+  $months = array(
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre"
+  );
+  ?>
+
+  <div id="apDivLeft" class="border">
+
+    <?php include('getCategories.php'); ?>
+
   </div>
-</div>
 
-<p>
-<a href="addItem.php"><br>
-<img id="item" src="ims/addItem.png" alt="Añadir Item..." width="39" height="39" title="Añadir Item!"></a>
-<br>
-</p>
+  <div id="apDivJoinRigth" class="border"></div>
 
+  <div id="apDivMiddle">
+    <br>
+    <div class="dropdown">
+      <button class="dropbtn"></button>
+      <div class="dropdown-content">
+        <a href="changeUserPass.php">Password</a>
+        <a href="pdf/CrearGravatar.pdf">Avatar</a>
+      </div>
+    </div>
 
-<p>
-<a href="addCategory.php"><br>
-<img src="ims/addCategory.png" alt="Añadir Categoría..." width="39" height="39" title="Añadir Categoría!"></a>
-<br>
-</p>
+    <p>
+      <a href="addItem.php"><br>
+        <img id="item" src="ims/addItem.png" alt="Añadir Item..." width="39" height="39" title="Añadir Item!"></a>
 
-<p>
-<a href="addSaving.php"><br>
-<img src="ims/addSaving.png" alt="Registrar Ahorro..." width="39" height="39" title="Registrar Ahorro!"></a>
-<br>
-</p>
+      <a href="addCategory.php"><br>
+        <img src="ims/addCategory.png" alt="Añadir Categoría..." width="39" height="39" title="Añadir Categoría!"></a>
+      <br>
+    </p>
 
-<p>
-<a href="getCurrentStatus.php"><br>
-<img src="ims/currentStatus.png" alt="Obtener Status Actual..." width="39" height="39" title="Obtener Status Actual!"></a>
-<br>
-</p>
+    <p>
+      <a href="addSaving.php"><br>
+        <img src="ims/addSaving.png" alt="Registrar Ahorro..." width="39" height="39" title="Registrar Ahorro!"></a>
+      <br>
+    </p>
 
-<p>
-<a href="bars.php"><br>
-<img src="ims/bars.png" alt="Gráfico de Barras para todas las categorías..." width="39" height="39" title="Gráfico de Barras para todas las categorías!"></a>
-<br>
+    <p>
+      <a href="getCurrentStatus.php"><br>
+        <img src="ims/currentStatus.png" alt="Obtener Status Actual..." width="39" height="39"
+          title="Obtener Status Actual!"></a>
+      <br>
+    </p>
 
-<p>
-<a href="pieAll.php"><br>
-<img src="ims/pieAll.png" alt="Gráfico de Pie para todas las categorías..." width="39" width="39" title="Gráfico de Pie para todas las categorías!"></a>
-<br>
+    <p>
+      <a href="bars.php"><br>
+        <img src="ims/bars.png" alt="Gráfico de Barras para todas las categorías..." width="39" height="39"
+          title="Gráfico de Barras para todas las categorías!"></a>
 
-<p>
-<a href="barSingle.php"><br>
-<img src="ims/barSingle.png" alt="Gráfico de Barras por categoría en específico..." width="39" height="39" title="Gráfico de Barras por categoría en específico!"></a>
-<br>
+      <a href="pieAll.php"><br>
+        <img src="ims/pieAll.png" alt="Gráfico de Pie para todas las categorías..." width="39" width="39"
+          title="Gráfico de Pie para todas las categorías!"></a>
+      <br>
 
-<p>
-<a href="pieSingle.php"><br>
-<img src="ims/pieSingle.png" alt="Gráfico de Pie por categoría en específico..." width="39" height="39" title="Gráfico de Pie por categoría en específico!"></a>
-<br>
+    <p>
+      <a href="barSingle.php"><br>
+        <img src="ims/barSingle.png" alt="Gráfico de Barras por categoría en específico..." width="39" height="39"
+          title="Gráfico de Barras por categoría en específico!"></a>
 
-</div>
+      <a href="pieSingle.php"><br>
+        <img src="ims/pieSingle.png" alt="Gráfico de Pie por categoría en específico..." width="39" height="39"
+          title="Gráfico de Pie por categoría en específico!"></a>
+    </p>
+  </div>
 
-<p> <div STYLE="position:absolute; TOP:72px; LEFT:72%" title="PDF Report">PDF</div>
-<a href="pdf.php">
-<img STYLE="position:absolute; TOP:93px; LEFT:72%" src="ims/pdf.png" alt="PDF Report" width="27" height="27" title="PDF Report"></a>
-</p>
+  <div id="apDivRigth">
+    <?php include('getItemsWithFG.php'); ?>
 
-<p> <div STYLE="position:absolute; TOP:72px; LEFT:75%">CSV</div>
-<a href="csv.php"><br>
-<img STYLE="position:absolute; TOP:93px; LEFT:75%" src="ims/xls.png" alt="CSV Report" width="27" height="27" title="CSV Report"></a>
-<br>
-</p>
+  </div>
 
-<div id="apDivRigth">
-	<?php include('getItemsWithFG.php'); ?>
-
-</div>
-
-<div id="apDivDay">
-<time datetime="<?php echo date('d-m-Y');   ?>" class="icon">
-  <em><?php echo $days[date("w")];    ?></em>
-  <strong><?php   echo $months[date('n')-1];      ?></strong>
-  <span><?php echo date("d");    ?></span>
-</time>
-</div>
+  <div id="apDivDay">
+    <time datetime="<?php echo date('d-m-Y'); ?>" class="icon">
+      <em><?php echo $days[date("w")]; ?></em>
+      <strong><?php echo $months[date('n') - 1]; ?></strong>
+      <span><?php echo date("d"); ?></span>
+    </time>
+  </div>
 
 </body>
+
 </html>

@@ -1,18 +1,14 @@
 <?php
 date_default_timezone_set('America/Mexico_City');
 
-define('DB_SERVER','localhost');
-//define('DB_USER','walletuser');
-define('DB_PASS' ,'passPass32#.');
-define('DB_USER','id13563311_mywalletx');
-//define('DB_NAME', 'mywalletx');
-define('DB_NAME', 'id13563311_newone');
+include_once 'config.php';
 
+#[\AllowDynamicProperties]
 class dbConn
 {
 	function __construct()
 	{
-	$con = mysqli_connect(DB_SERVER,DB_USER,DB_PASS,DB_NAME);
+	$con = new mysqli(DB_SERVER,DB_USER,DB_PASS,DB_NAME);
 	$this->connX=$con;
 	// Check connection
 	if (mysqli_connect_errno())

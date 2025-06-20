@@ -1,94 +1,119 @@
 <?php
 require_once('classes/tc_date.php');
 require_once('classes/tc_calendar.php');
+require_once('calendar_functions.php');
 
-$thispage = $_SERVER['PHP_SELF'];
+//change the following line to show or hide calendar information
+$show_calendar_info = true;
+$show_fb_info = true;
+$show_servertime_info = true;
+
+$thispage = htmlspecialchars($_SERVER["PHP_SELF"], ENT_QUOTES);
+
+//timezone var, need to setup before any other tasks
+$timezone = getParameter("tmz");
+
+if(!$timezone) $timezone = date_default_timezone_get();
+@date_default_timezone_set($timezone);
 
 $cdate = new tc_date();
 $today = $cdate->getDate();
 
-$sld = (isset($_REQUEST["selected_day"])) ? $_REQUEST["selected_day"] : 0;
-$slm = (isset($_REQUEST["selected_month"])) ? (int)$_REQUEST["selected_month"] : 0;
-$sly = (isset($_REQUEST["selected_year"])) ? (int)$_REQUEST["selected_year"] : 0;
+$sld = getParameter("selected_day");
+$slm = getParameter("selected_month");
+$sly = getParameter("selected_year");
 
-$year_start = (isset($_REQUEST["year_start"])) ? $_REQUEST["year_start"] : 0;
-$year_end = (isset($_REQUEST["year_end"])) ? $_REQUEST["year_end"] : 0;
+if(!is_numeric($sld)) $sld = "00";
+if(!is_numeric($slm)) $slm = "00";
+if(!is_numeric($sly)) $sly = "0000";
 
-$startDate = (isset($_REQUEST["str"])) ? $_REQUEST["str"] : 0;
+$year_start = getParameter("year_start", "number", 0);
+$year_end = getParameter("year_end", "number", 0);
 
-$time_allow1 = (isset($_REQUEST["da1"])) ? $_REQUEST["da1"] : "";
-$time_allow2 = (isset($_REQUEST["da2"])) ? $_REQUEST["da2"] : "";
+$startDate = getParameter("str", "number", 0);
 
-$ta1_set = ($time_allow1 != "") ? true : false;
-$ta2_set = ($time_allow2 != "") ? true : false;
+$time_allow1 = getParameter("da1");
+$time_allow2 = getParameter("da2");
 
-$show_not_allow = (isset($_REQUEST["sna"])) ? $_REQUEST["sna"] : true;
+$ta1_set = ($time_allow1 != "" && $cdate->validDate($time_allow1)) ? true : false;
+$ta2_set = ($time_allow2 != "" && $cdate->validDate($time_allow2)) ? true : false;
 
-$auto_submit = (isset($_REQUEST["aut"])) ? $_REQUEST["aut"] : false;
-$form_name = (isset($_REQUEST["frm"])) ? $_REQUEST["frm"] : "";
-$target_url = (isset($_REQUEST["tar"])) ? $_REQUEST["tar"] : "";
+$show_not_allow = getParameter("sna", "boolean", true);
 
-$show_input = (isset($_REQUEST["inp"])) ? $_REQUEST["inp"] : true;
-$date_format = (isset($_REQUEST["fmt"])) ? $_REQUEST["fmt"] : 'd-M-Y';
+$auto_submit = getParameter("aut", "boolean", false);
+$form_name = getParameter("frm");
+$target_url = getParameter("tar");
 
-$dsb_txt = (isset($_REQUEST["dis"])) ? $_REQUEST["dis"] : "";
+$show_input = getParameter("inp", "boolean", true);
+$date_format = getParameter("fmt", "text", 'd-M-Y');
 
-$date_pair1 = (isset($_REQUEST["pr1"])) ? $_REQUEST["pr1"] : "";
-$date_pair2 = (isset($_REQUEST["pr2"])) ? $_REQUEST["pr2"] : "";
+$dsb_txt = getParameter("dis");
 
-$date_pair_value = (isset($_REQUEST["prv"])) ? $_REQUEST["prv"] : "";
-$path = (isset($_REQUEST["pth"])) ? $_REQUEST["pth"] : "";
+$date_pair1 = getParameter("pr1");
+$date_pair2 = getParameter("pr2");
 
-$sp_dates = (isset($_REQUEST["spd"])) ? @tc_calendar::check_json_decode($_REQUEST["spd"]) : array(array(), array(), array());
-$sp_type = (isset($_REQUEST["spt"])) ? $_REQUEST["spt"] : 0;
+$date_pair_value = getParameter("prv");
+$path = getParameter("pth");
 
-$tc_onchanged = (isset($_REQUEST["och"])) ? $_REQUEST["och"] : "";
-$rtl = (isset($_REQUEST["rtl"])) ? $_REQUEST["rtl"] : "";
+$sp_dates = (isset($_REQUEST["spd"])) ? @tc_calendar::check_json_decode(htmlspecialchars_decode($_REQUEST["spd"], ENT_QUOTES)) : array(array(), array(), array());
+//echo("<br />".htmlspecialchars_decode($_REQUEST["spd"], ENT_QUOTES));
+//print_r($sp_dates);
 
-$show_weeks = (isset($_REQUEST["wks"])) ? $_REQUEST["wks"] : false;
-$interval = (isset($_REQUEST["int"])) ? $_REQUEST["int"] : 1;
+$sp_type = getParameter("spt", "number", 0);
 
-$auto_hide = (isset($_REQUEST["hid"])) ? $_REQUEST["hid"] : 0;
-$auto_hide_time = (isset($_REQUEST["hdt"])) ? $_REQUEST["hdt"] : 1000;
+$tc_onchanged = getParameter("och");
+$rtl = getParameter("rtl", "boolean", false);
+
+$show_weeks = getParameter("wks", "boolean", false);
+$interval = getParameter("int", "number", 1);
+
+$auto_hide = getParameter("hid", "number", 0);
+$auto_hide_time = getParameter("hdt", "number", 1000);
+
+$theme = getParameter("thm");
 
 //check year to be select in case of date_allow is set
 if(!$show_not_allow){
-  if ($ta1_set) $year_start = $cdate->getDateFromTimestamp($time_allow1, 'Y');
-  if ($ta2_set) $year_end = $cdate->getDateFromTimestamp($time_allow2, 'Y');
+  if ($ta1_set && $cdate->validDate($time_allow1)) $year_start = $cdate->getDate('Y', $time_allow1);
+  if ($ta2_set && $cdate->validDate($time_allow2)) $year_end = $cdate->getDate('Y', $time_allow2);
 }
 
 if(isset($_REQUEST["m"]))
-	$m = $_REQUEST["m"];
+	$m = getParameter("m", "number");
 else{
-	if($slm){
+	if($slm != "00"){
 		$m = $slm;
 	}else{
 		if($ta2_set && $year_end > 0){
 			//compare which one is more
-			$year_allow2 = $cdate->getDateFromTimestamp($time_allow2, 'Y');
+			$year_allow2 = $cdate->getDate('Y', $time_allow2);
 			if($year_allow2 >= $year_end){
 				//use time_allow2
-				$m = ($time_allow2 > time()) ? $cdate->getDate("m") : $cdate->getDateFromTimestamp($time_allow2, 'm');
+				$m = ($cdate->dateBefore($time_allow2)) ? $cdate->getDate("m") : $cdate->getDate('m', $time_allow2);
 			}else{
 				//use year_end
 				$m = ($year_end > $cdate->getDate("Y")) ? $cdate->getDate("m") : 12;
 			}
 		}elseif($ta2_set){
-			$m = ($time_allow2 > time()) ? $cdate->getDate("m") : $cdate->getDateFromTimestamp($time_allow2, 'm');
+			$m = ($cdate->dateBefore($time_allow2)) ? $cdate->getDate("m") : $cdate->getDate('m', $time_allow2);
 		}elseif($year_end > 0){
 			$m = ($year_end > $cdate->getDate("Y")) ? $cdate->getDate("m") : 12; //date('m')
-		}else $m = $cdate->getDate("m");
+		}else{
+			$m = $cdate->getDate("m");
+		}
 	}
 }
 
 if($m < 1 && $m > 12) $m = $cdate->getDate("m");
 
-$cyr = ($sly) ? true : false;
-if($sly && $sly < $year_start) $sly = $year_start;
-if($sly && $sly > $year_end) $sly = $year_end;
+$m = str_pad($m, 2, "0", STR_PAD_LEFT);
+
+$cyr = ($sly != "0000") ? true : false;
+if($cyr && $sly && $sly < $year_start) $sly = $year_start;
+if($cyr && $sly && $sly > $year_end) $sly = $year_end;
 
 if(isset($_REQUEST["y"]))
-	$y = $_REQUEST["y"];
+	$y = getParameter("y", "number");
 else
 	$y = ($cyr) ? $sly : $cdate->getDate("Y");
 
@@ -96,21 +121,20 @@ if($y <= 0) $y = $cdate->getDate("Y");
 
 // ensure m-y fits date allow range
 if (!$show_not_allow) {
-  if ($ta1_set) {
-    $m1 = $cdate->getDateFromTimestamp($time_allow1, 'm');
-    $y1 = $cdate->getDateFromTimestamp($time_allow1, 'Y');
-    if ($y == $y1 && (int)$m < (int)$m1) $m = $m1;
-  }
-  if ($ta2_set) {
-    $m2 = $cdate->getDateFromTimestamp($time_allow1, 'm');
-    $y2 = $cdate->getDateFromTimestamp($time_allow1, 'Y');
-    if ($y == $y2 && (int)$m > (int)$m2) $m = $m2;
-  }
+	if ($ta1_set) {
+		$m1 = $cdate->getDate('m', $time_allow1);
+		$y1 = $cdate->getDate('Y', $time_allow1);
+		if ($y == $y1 && (int)$m < (int)$m1) $m = $m1;
+	}
+	if ($ta2_set) {
+		$m2 = $cdate->getDate('m', $time_allow2);
+		$y2 = $cdate->getDate('Y', $time_allow2);
+		if ($y == $y2 && (int)$m > (int)$m2) $m = $m2;
+	}
 }
 
-$objname = (isset($_REQUEST["objname"])) ? $_REQUEST["objname"] : "";
-$dp = (isset($_REQUEST["dp"])) ? $_REQUEST["dp"] : "";
-
+$objname = getParameter("objname");
+$dp = getParameter("dp", "boolean");
 
 $cobj = new tc_calendar("");
 $cobj->setDate($sld, $slm, $sly);
@@ -120,18 +144,22 @@ $cobj->time_allow1 = $time_allow1;
 $cobj->time_allow2 = $time_allow2;
 
 $cobj->setYearInterval($year_start, $year_end);
+$cobj->setTimezone($timezone); //set for further usage, nothing for now
+
+$theme_path = ($theme != "") ? $cobj->getThemePath($theme) : "";
+if(!is_file($theme_path)) $theme_path = "";
 
 //check and show default calendar month and year on valid range of date_allow
 if(!isset($_REQUEST["m"])){
-	if($time_allow1 > 0){
+	if($time_allow1 != ""){
 		//get date of time allow1
-		$date_allow1 = $cdate->getDateFromTimestamp($time_allow1);
-
-		//check valid if today is after date_allow1
-		if(!$cdate->dateAfter($date_allow1, $today)){
-			//reset default calendar display
-			$y = $cdate->getDateFromTimestamp($time_allow1, 'Y');
-			$m = $cdate->getDateFromTimestamp($time_allow1, 'm');
+		if($cdate->validDate($time_allow1)){
+			//check valid if today is after date_allow1
+			if(!$cdate->dateAfter($time_allow1, $today)){
+				//reset default calendar display
+				$y = $cdate->getDate('Y', $time_allow1);
+				$m = $cdate->getDate('m', $time_allow1);
+			}
 		}
 	}
 }
@@ -174,7 +202,6 @@ if($firstdate == $startDate){
 	$startwrite = $total_lastmonth - ($firstdate - $startDate - 1);
 }
 
-
 //--------------------------------
 //prepare the calendar in array
 //--------------------------------
@@ -198,11 +225,11 @@ for($day=$startwrite; $day<=$total_lastmonth; $day++){
 	}else $week_rows[$row_count][$wknum] = $week_rows[$row_count][$wknum]+1;
 }
 
-$pvMonthTime = strtotime($previous_year."-".$previous_month."-".$total_lastmonth);
+$pvMonthTime = $previous_year."-".$previous_month."-".$total_lastmonth;
 
 //check lastmonth is on allowed date
 if($ta1_set && !$show_not_allow){
-	if($pvMonthTime >= $time_allow1){
+	if($cdate->dateBefore($pvMonthTime, $time_allow1)){
 		$show_previous = true;
 	}else $show_previous = false;
 }else $show_previous = true; //always show when not set
@@ -231,10 +258,10 @@ for($day=1; $day<=$total_thismonth; $day++){
 	$date_num = $cdate->getDayOfWeek($date_str);
 	$day_txt = $cdate->getDate('D', $date_str);
 
-	$currentTime = $cdate->getTimestamp($y."-".$m."-".$day);
 	$htmlClass = array();
 
 	$is_today = ($cdate->differentDate($date_str) == 0) ? 1 : 0; //$is_today = $currentTime - strtotime($today);
+
 	$htmlClass[] = ($is_today) ? "today" : "general";
 
 	$dateLink = true;
@@ -242,13 +269,13 @@ for($day=1; $day<=$total_thismonth; $day++){
 	//check date allowed
 	if($ta1_set && $ta2_set){
 		//both date specified
-		$dateLink = ($time_allow1 <= $currentTime && $currentTime <= $time_allow2);
+		$dateLink = ($cdate->dateBefore($date_str, $time_allow1) && $cdate->dateAfter($date_str, $time_allow2)) ? true : false;
 	}elseif($ta1_set){
 		//only date 1 specified
-		$dateLink = ($currentTime >= $time_allow1);
+		$dateLink = $cdate->dateBefore($date_str, $time_allow1) ? true : false;
 	}elseif($ta2_set){
 		//only date 2 specified
-		$dateLink = ($currentTime <= $time_allow2);
+		$dateLink = $cdate->dateAfter($date_str, $time_allow2) ? true : false;
 	}else{
 		//no date allow specified, assume show all
 		$dateLink = true;
@@ -261,7 +288,6 @@ for($day=1; $day<=$total_thismonth; $day++){
 		}
 	}
 
-
 	//check specific date
 	if($dateLink){
 		if(is_array($sp_dates) && sizeof($sp_dates) > 0){
@@ -271,11 +297,13 @@ for($day=1; $day<=$total_thismonth; $day++){
 			//check on yearly recursive
 			if(isset($sp_dates[2]) && is_array($sp_dates[2])){
 				foreach($sp_dates[2] as $sp_time){
-					$sp_time_md = date('md', $sp_time);
-					$this_md = date('md', $currentTime);
-					if($sp_time_md == $this_md){
-						$sp_found = true;
-						break;
+					if($sp_time != ""){
+						$sp_time_md = (int)$cdate->getDate('md', $sp_time); //date('md', $sp_time);
+						$this_md = (int)$cdate->getDate('md', $date_str); //date('md', $currentTime);
+						if($sp_time_md == $this_md){
+							$sp_found = true;
+							break;
+						}
 					}
 				}
 			}
@@ -284,7 +312,7 @@ for($day=1; $day<=$total_thismonth; $day++){
 			if(isset($sp_dates[1]) && is_array($sp_dates[1]) && !$sp_found){
 				foreach($sp_dates[1] as $sp_time){
 					if($sp_time != "" && $sp_time > 0){
-						$sp_time_d = date('d', $sp_time);
+						$sp_time_d = (int)$cdate->getDate('d', $sp_time); //date('d', $sp_time);
 						if($sp_time_d == $day){
 							$sp_found = true;
 							break;
@@ -295,7 +323,7 @@ for($day=1; $day<=$total_thismonth; $day++){
 
 			//check on no recursive
 			if(isset($sp_dates[0]) && is_array($sp_dates[0]) && !$sp_found){
-				$sp_found = in_array($currentTime, $sp_dates[0]);
+				$sp_found = in_array($date_str, $sp_dates[0]);
 			}
 
 			switch($sp_type){
@@ -313,8 +341,7 @@ for($day=1; $day<=$total_thismonth; $day++){
 	}
 
 	if($date_pair_value){
-		//check date_pair1 &  2
-
+		//check date_pair1 & 2
 		if($date_pair1 && $date_pair_value != "0000-00-00" && $cdate->dateAfter($date_pair_value, $date_str) && (($slm>0 && $sld>0 && $sly>0) && $cdate->dateBefore("$sly-$slm-$sld", $date_str))){ //set date only after date_pair1
 			if(!in_array("select", $htmlClass))
 				$htmlClass[] = "select";
@@ -332,7 +359,7 @@ for($day=1; $day<=$total_thismonth; $day++){
 		if(in_array($date_str, $select_days) && !in_array("select", $htmlClass)){
 			$htmlClass[] = "select";
 		}
-		
+
 		//date with link
 		$class = implode(" ", $htmlClass);
 
@@ -343,13 +370,18 @@ for($day=1; $day<=$total_thismonth; $day++){
 
 		//date without link
 		$calendar_rows[$row_count][] = array($day, "", $class, "$y".str_pad($m, 2, "0", STR_PAD_LEFT).str_pad($day, 2, "0", STR_PAD_LEFT));
+
+		//check if selected date is a disabled date
+		if($date_str == $sly."-".str_pad($slm, 2, "0", STR_PAD_LEFT)."-".str_pad($sld, 2, "0", STR_PAD_LEFT)){
+			//disabled
+			//$sly = $slm = $sld = "";
+		}
 	}
 	if(($startDate == 0 && $date_num == 6) || ($startDate > 0 && $date_num == $startDate-1)){
 		$row_count++;
 
 		$dayinweek_counter = 0;
 	}else $dayinweek_counter++;
-
 
 	$wknum = $cdate->getWeekNumber(($y."-".$m."-".$day));
 
@@ -389,8 +421,8 @@ for($day=$row_count; $day<6; $day++){
 
 //check next month is on allowed date
 if($ta2_set && !$show_not_allow){
-	$nxMonthTime = strtotime($next_year."-".$next_month."-1");
-	if($nxMonthTime <= $time_allow2){
+	$nxMonthTime = $next_year."-".$next_month."-1";
+	if($cdate->dateAfter($nxMonthTime, $time_allow2)){
 		$show_next = true;
 	}else $show_next = false;
 }else $show_next = true; //always show when not set
@@ -401,15 +433,23 @@ if($ta2_set && !$show_not_allow){
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>TriConsole.com - PHP Calendar Date Picker</title>
 <link href="calendar.css" rel="stylesheet" type="text/css" />
-<script language="javascript">
+<?php if($theme_path){ ?>
+<link href="<?php echo($theme_path); ?>" rel="stylesheet" type="text/css" />
+<?php } ?>
+<script type="text/javascript">
 <!--
-var today_month = "<?php echo(date('m')); ?>";
-var today_year = "<?php echo(date('Y')); ?>";
+var today_day = "<?php echo($cdate->getDate('d')); ?>";
+var today_month = "<?php echo($cdate->getDate('m')); ?>";
+var today_year = "<?php echo($cdate->getDate('Y')); ?>";
 var obj_name = "<?php echo($objname); ?>";
+var current_month = "<?php echo($m);?>";
+var current_year = "<?php echo($y);?>";
+
+var this_time = "<?php echo(date("F d, Y H:i:s", time())); ?>";
 //-->
 </script>
-<script language="javascript" src="calendar_form.js"></script>
-<script language="javascript">
+<script type="text/javascript" src="calendar_form.js"></script>
+<script type="text/javascript">
 <!--
 function submitNow(dvalue, mvalue, yvalue){
 	<?php
@@ -430,99 +470,104 @@ function submitNow(dvalue, mvalue, yvalue){
 };
 //-->
 </script>
-
 </head>
-
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
-<span id="calendar-page" class="font">
-    <div id="calendar-header" align="center">
-        <?php if($dp && !$auto_hide){ ?>
-        <div align="<?php echo($rtl ? "left" : "right"); ?>" class="closeme"><a href="javascript:closeMe();"><img src="images/close.gif" border="0" alt="Close" title="Close" /></a></div>
-        <?php } ?>
+<div id="calendar-page" class="font">
+	<div id="calendar-header" align="center">
+		<?php if($show_calendar_info) include("calendar_info.php"); ?>
+		<?php if($dp && !$auto_hide){ ?>
+		<div style="float: right;" class="closeme"><a href="javascript:closeMe();"><img src="images/close.gif" border="0" alt="Close" title="Close" /></a></div>
+		<?php } ?>
 
-        <?php
+		<?php
 		if(sizeof($cobj->warning_msgs)>0){
 			echo("<div id=\"calendar-alert\">".implode(", ", $cobj->warning_msgs)."</div>");
 		}
 		?>
 
-        <form id="calendarform" name="calendarform" method="post" action="<?php echo($thispage);?>">
-          <table align="center" cellpadding="1" cellspacing="0">
-          	 <tr>
-            	<td align="right"><select name="m" onchange="javascript:submitCalendar();" class="font">
-				  <?php
-                  $monthnames = $cobj->getMonthNames();
-                  for($f=1; $f<=sizeof($monthnames); $f++){
-                    $selected = ($f == (int)$m) ? " selected='selected'" : "";
-                    echo("<option value=\"".str_pad($f, 2, "0", STR_PAD_LEFT)."\"$selected>".$monthnames[$f-1]."</option>");
-                  }
-                  ?>
-                  </select></td><td align="left"><select name="y" onchange="javascript:submitCalendar();" class="font">
-                  <?php
-                  $thisyear = date('Y');
+		<form id="calendarform" name="calendarform" method="post" action="<?php echo($thispage);?>">
+			<table align="center" cellpadding="1" cellspacing="0">
+			<tr>
+				<td align="right"><select name="m" onchange="javascript:submitCalendar();" class="font">
+					<?php
+					$monthnames = $cobj->getMonthNames();
+					for($f=1; $f<=sizeof($monthnames); $f++){
+						$selected = ($f == (int)$m) ? " selected='selected'" : "";
+						echo("<option value=\"".str_pad($f, 2, "0", STR_PAD_LEFT)."\"".$selected.">".$monthnames[$f-1]."</option>");
+					}
+					?>
+					</select></td><td align="left"><select name="y" onchange="javascript:submitCalendar();" class="font">
+					<?php
+					$thisyear = $cdate->getDate('Y');
 
-                  //write year options
-                  for($year=$year_end; $year>=$year_start; $year--){
-                    $selected = ($year == $y) ? " selected='selected'" : "";
-                    echo("<option value=\"".$year."\"$selected>$year</option>");
-                  }
-                  ?>
-                  </select>
-                </td>
-             </tr>
-           </table>
-	    	<input name="selected_day" type="hidden" id="selected_day" value="<?php echo($sld);?>" />
-            <input name="selected_month" type="hidden" id="selected_month" value="<?php echo($slm);?>" />
-            <input name="selected_year" type="hidden" id="selected_year" value="<?php echo($sly);?>" />
-            <input name="year_start" type="hidden" id="year_start" value="<?php echo($cobj->year_start_input);?>" />
-            <input name="year_end" type="hidden" id="year_end" value="<?php echo($cobj->year_end_input);?>" />
-            <input name="objname" type="hidden" id="objname" value="<?php echo($objname);?>" />
-            <input name="dp" type="hidden" id="dp" value="<?php echo($dp);?>" />
+					//write year options
+					for($year=$year_end; $year>=$year_start; $year--){
+						$selected = ($year == $y) ? " selected='selected'" : "";
+						echo("<option value=\"".$year."\"".$selected.">".$year."</option>");
+					}
+					?>
+					</select>
+				</td>
+				</tr>
+			</table>
+			<input name="selected_day" type="hidden" id="selected_day" value="<?php echo($sld);?>" />
+			<input name="selected_month" type="hidden" id="selected_month" value="<?php echo($slm);?>" />
+			<input name="selected_year" type="hidden" id="selected_year" value="<?php echo($sly);?>" />
+			<input name="year_start" type="hidden" id="year_start" value="<?php echo($cobj->year_start_input);?>" />
+			<input name="year_end" type="hidden" id="year_end" value="<?php echo($cobj->year_end_input);?>" />
+			<input name="objname" type="hidden" id="objname" value="<?php echo($objname);?>" />
+			<input name="dp" type="hidden" id="dp" value="<?php echo($dp);?>" />
 
-            <input name="da1" type="hidden" id="da1" value="<?php echo($time_allow1);?>" />
-            <input name="da2" type="hidden" id="da2" value="<?php echo($time_allow2);?>" />
-            <input name="sna" type="hidden" id="sna" value="<?php echo($show_not_allow);?>" />
-            <input name="aut" type="hidden" id="aut" value="<?php echo($auto_submit);?>" />
-            <input name="frm" type="hidden" id="frm" value="<?php echo($form_name);?>" />
-            <input name="tar" type="hidden" id="tar" value="<?php echo($target_url);?>" />
-            <input name="inp" type="hidden" id="inp" value="<?php echo($show_input);?>" />
-            <input name="fmt" type="hidden" id="fmt" value="<?php echo($date_format);?>" />
-            <input name="dis" type="hidden" id="dis" value="<?php echo($dsb_txt);?>" />
+			<input name="da1" type="hidden" id="da1" value="<?php echo($time_allow1);?>" />
+			<input name="da2" type="hidden" id="da2" value="<?php echo($time_allow2);?>" />
+			<input name="sna" type="hidden" id="sna" value="<?php echo($show_not_allow);?>" />
+			<input name="aut" type="hidden" id="aut" value="<?php echo($auto_submit);?>" />
+			<input name="frm" type="hidden" id="frm" value="<?php echo($form_name);?>" />
+			<input name="tar" type="hidden" id="tar" value="<?php echo($target_url);?>" />
+			<input name="inp" type="hidden" id="inp" value="<?php echo($show_input);?>" />
+			<input name="fmt" type="hidden" id="fmt" value="<?php echo($date_format);?>" />
+			<input name="dis" type="hidden" id="dis" value="<?php echo($dsb_txt);?>" />
 
-            <input name="pr1" type="hidden" id="pr1" value="<?php echo($date_pair1);?>" />
-            <input name="pr2" type="hidden" id="pr2" value="<?php echo($date_pair2);?>" />
-            <input name="prv" type="hidden" id="prv" value="<?php echo($date_pair_value);?>" />
-            <input name="pth" type="hidden" id="pth" value="<?php echo($path);?>" />
+			<input name="pr1" type="hidden" id="pr1" value="<?php echo($date_pair1);?>" />
+			<input name="pr2" type="hidden" id="pr2" value="<?php echo($date_pair2);?>" />
+			<input name="prv" type="hidden" id="prv" value="<?php echo($date_pair_value);?>" />
+			<input name="pth" type="hidden" id="pth" value="<?php echo($path);?>" />
 
-            <input name="spd" type="hidden" id="spd" value="<?php echo($cobj->check_json_encode($sp_dates));?>" />
-            <input name="spt" type="hidden" id="spt" value="<?php echo($sp_type);?>" />
+			<input name="spd" type="hidden" id="spd" value="<?php echo(htmlspecialchars($cobj->check_json_encode($sp_dates), ENT_QUOTES));?>" />
+			<input name="spt" type="hidden" id="spt" value="<?php echo($sp_type);?>" />
 
-            <input name="och" type="hidden" id="och" value="<?php echo(urldecode($tc_onchanged));?>" />
+			<input name="och" type="hidden" id="och" value="<?php echo(urldecode($tc_onchanged));?>" />
 
-            <input name="str" type="hidden" id="str" value="<?php echo($startDate);?>" />
-            <input name="rtl" type="hidden" id="rtl" value="<?php echo($rtl);?>" />
-            <input name="wks" type="hidden" id="wks" value="<?php echo($show_weeks);?>" />
-            <input name="int" type="hidden" id="int" value="<?php echo($interval);?>" />
+			<input name="str" type="hidden" id="str" value="<?php echo($startDate);?>" />
+			<input name="rtl" type="hidden" id="rtl" value="<?php echo($rtl);?>" />
+			<input name="wks" type="hidden" id="wks" value="<?php echo($show_weeks);?>" />
+			<input name="int" type="hidden" id="int" value="<?php echo($interval);?>" />
 
-            <input name="hid" type="hidden" id="hid" value="<?php echo($auto_hide);?>" />
-            <input name="hdt" type="hidden" id="hdt" value="<?php echo($auto_hide_time);?>" />
-      </form>
+			<input name="hid" type="hidden" id="hid" value="<?php echo($auto_hide);?>" />
+			<input name="hdt" type="hidden" id="hdt" value="<?php echo($auto_hide_time);?>" />
+
+			<input name="tmz" type="hidden" id="tmz" value="<?php echo($timezone);?>" />
+			<input name="thm" type="hidden" id="thm" value="<?php echo($theme);?>" />
+
+			<!-- focus var //-->
+			<input name="fcs" type="hidden" id="fcs" value="0" />
+		</form>
 	</div>
-    <div id="calendar-container">
-        <div id="calendar-body">
-        <table border="0" cellspacing="1" cellpadding="0" align="center" class="font">
-            <?php
-            $day_headers = array_values($cobj->getDayHeaders());
+	<div id="calendar-container">
+		<div id="calendar-body">
+		<table border="0" cellspacing="1" cellpadding="0" align="center" class="font">
+			<?php
+			$day_headers = array_values($cobj->getDayHeaders());
 
-            echo("<tr>");
+			echo("<tr>");
 
 			if ($show_weeks) echo("<td align=\"center\" class=\"header wk-hdr\"><div>".$cobj->week_hdr."</div></td>");
 
 			//write calendar day header
-            foreach($day_headers as $dh){
-                echo("<td align=\"center\" class=\"header\"><div>".$dh."</div></td>");
-            }
-            echo("</tr>");
+			foreach($day_headers as $dh){
+				echo("<td align=\"center\" class=\"header\"><div>".$dh."</div></td>");
+			}
+			echo("</tr>");
 
 			for($row=0; $row<sizeof($calendar_rows); $row++){
 				echo("<tr>");
@@ -542,58 +587,58 @@ function submitNow(dvalue, mvalue, yvalue){
 					$this_class = isset($column[2]) ? $column[2] : "";
 					$this_id = isset($column[3]) ? $column[3] : "";
 
-					$id_str = ($this_id) ? " id=\"$this_id\"" : "";
+					$id_str = ($this_id) ? " id=\"".$this_id."\"" : "";
 
 					if($this_link){
-						echo("<td$id_str align=\"center\" class=\"$this_class\"><a href=\"$this_link\"><div>$this_day</div></a></td>");
+						echo("<td".$id_str." align=\"center\" class=\"".$this_class."\"><div><a href=\"".$this_link."\">".$this_day."</a></div></td>");
 					}else{
-						echo("<td$id_str align=\"center\" class=\"$this_class\"><div>$this_day</div></td>");
+						echo("<td".$id_str." align=\"center\" class=\"".$this_class."\"><div>".$this_day."</div></td>");
 					}
 				}
 				echo("</tr>");
 			}
-        ?>
-        </table>
-        </div>
+		?>
+		</table>
+		</div>
 
 		<?php
-        if(($previous_year >= $year_start || $next_year <= $year_end) && ($show_previous || $show_next)){
-        ?>
-        <div id="calendar-footer">
-            <div style="float: <?php echo($rtl ? "right" : "left"); ?>;" class="btn">
-            <?php
-            if($previous_year >= $year_start && $show_previous){
-            ?><a href="javascript:move('<?php echo(str_pad($previous_month, 2, "0", STR_PAD_LEFT));?>', '<?php echo($previous_year);?>');"><img src="images/btn_<?php echo($rtl ? "next" : "previous"); ?>.gif" width="16" height="16" border="0" alt="Previous" title="Previous" /></a>
-            <?php
-            }else echo("&nbsp;");
-            ?>
-            </div>
-            <div style="float: <?php echo($rtl ? "left" : "right"); ?>;" class="btn">
-            <?php
-            if($next_year <= $year_end && $show_next){
-            ?><a href="javascript:move('<?php echo(str_pad($next_month, 2, "0", STR_PAD_LEFT));?>', '<?php echo($next_year);?>');"><img src="images/btn_<?php echo($rtl ? "previous" : "next"); ?>.gif" width="16" height="16" border="0" alt="Next" title="Next" /></a>
-            <?php
-            }else echo("&nbsp;");
-            ?>
-            </div>
-            <div class="links">
-                <?php
-                $footer_links = array();
+		if(($previous_year >= $year_start || $next_year <= $year_end) && ($show_previous || $show_next)){
+		?>
+		<div id="calendar-footer">
+			<div style="float: <?php echo($rtl ? "right" : "left"); ?>;" class="btn">
+				<?php
+				if($previous_year >= $year_start && $show_previous){
+				?><a href="javascript:move('<?php echo(str_pad($previous_month, 2, "0", STR_PAD_LEFT));?>', '<?php echo($previous_year);?>');"><img src="images/btn_<?php echo($rtl ? "next" : "previous"); ?>.gif" width="16" height="16" border="0" alt="Previous" title="Previous" /></a>
+				<?php
+				}else echo("&nbsp;");
+				?>
+			</div>
+			<div style="float: <?php echo($rtl ? "left" : "right"); ?>;" class="btn">
+				<?php
+				if($next_year <= $year_end && $show_next){
+				?><a href="javascript:move('<?php echo(str_pad($next_month, 2, "0", STR_PAD_LEFT));?>', '<?php echo($next_year);?>');"><img src="images/btn_<?php echo($rtl ? "previous" : "next"); ?>.gif" width="16" height="16" border="0" alt="Next" title="Next" /></a>
+				<?php
+				}else echo("&nbsp;");
+				?>
+			</div>
+			<div class="links">
+				<?php
+				$footer_links = array();
 
-                if($cobj->validTodayDate() && ($m != $cdate->getDate('m') || $y != $cdate->getDate('Y')))
-                    $footer_links[] = "<a href=\"javascript:today();\" class=\"txt\" alt=\"Hoy\" title=\"Hoy\">Hoy</a>";
+				if($cobj->validTodayDate() && ($m != $cdate->getDate('m') || $y != $cdate->getDate('Y')))
+					$footer_links[] = "<a href=\"javascript:today();\" class=\"txt\" alt=\"Today\" title=\"Today\">Today</a>";
 
-                if($sld>0 && $slm>0 && $sly>0)
-                    $footer_links[] = "<a href=\"javascript:unsetValue();\" class=\"txt\" alt=\"Unset\" title=\"Unset\">Unset</a>";
+				if($sld>0 && $slm>0 && $sly>0)
+					$footer_links[] = "<a href=\"javascript:unsetValue();\" class=\"txt\" alt=\"Unset\" title=\"Unset\">Unset</a>";
 
-                if(sizeof($footer_links)>0){
-                    echo(implode(" | ", $footer_links));
-                }
-                ?>
-            </div>
-        </div>
-        <?php } ?>
+				if(sizeof($footer_links)>0){
+					echo(implode(" | ", $footer_links));
+				}
+				?>
+			</div>
+		</div>
+		<?php } ?>
 	</div>
-</span>
+</div>
 </body>
 </html>

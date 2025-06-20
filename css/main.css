@@ -1,0 +1,58 @@
+.dropbtn {
+  background-color: #4caf50;
+  background-image: url("../ims/settings.png") no-repeat 25% 50% #ff8800;
+  background: #92c7eb;
+  background-image: url("../ims/settings.png");
+  background-size: cover;
+  background-position: center;
+  display: inline-block;
+  border: none;
+  padding: 20px;
+  width: 21px;
+  border-radius: 900px;
+  height: 21px;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+
+.btn:hover {
+  width: 21px;
+  height: 21px;
+  color: white;
+  padding: 9px;
+  font-size: 9px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}

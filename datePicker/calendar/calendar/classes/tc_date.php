@@ -8,9 +8,9 @@
 require_once('tc_date_main.php');
 
 class tc_date extends tc_date_main{
-	var $compatible;
+	public $compatible;
 
-	function tc_date(){
+	public function __construct(){
 		//check if we should use DateTime that comes with 5.3.0 and later
 		if (version_compare(PHP_VERSION, '5.3.0') <= 0) {
 			$this->compatible = false;
@@ -23,7 +23,7 @@ class tc_date extends tc_date_main{
 		}
 	}
 
-	function getDayOfWeek($cdate = ""){
+	public function getDayOfWeek($cdate = ""){
 		if(!$this->compatible){
 			return tc_date_main::getDayOfWeek($cdate);
 		}else{
@@ -34,8 +34,7 @@ class tc_date extends tc_date_main{
 		}
 	}
 
-
-	function getWeekNumber($cdate = ""){
+	public function getWeekNumber($cdate = ""){
 		if(!$this->compatible){
 			return tc_date_main::getWeekNumber($cdate);
 		}else{
@@ -46,7 +45,7 @@ class tc_date extends tc_date_main{
 		}
 	}
 
-	function setDate($sdate){
+	public function setDate($sdate){
 		if(!$this->compatible){
 			tc_date_main::setDate($sdate);
 		}else{
@@ -55,7 +54,7 @@ class tc_date extends tc_date_main{
 		}
 	}
 
-	function getDate($format = "Y-m-d", $cdate = ""){
+	public function getDate($format = "Y-m-d", $cdate = ""){
 		if(!$this->compatible){
 			return tc_date_main::getDate($format, $cdate);
 		}else{
@@ -66,7 +65,7 @@ class tc_date extends tc_date_main{
 		}
 	}
 
-	function setTimestamp($stime){
+	public function setTimestamp($stime){
 		if(!$this->compatible){
 			tc_date_main::setTimestamp($stime);
 		}else{
@@ -74,7 +73,7 @@ class tc_date extends tc_date_main{
 		}
 	}
 
-	function getTimestamp($cdate = ""){
+	public function getTimestamp($cdate = ""){
 		if(!$this->compatible){
 			return tc_date_main::getTimestamp($cdate);
 		}else{
@@ -85,17 +84,19 @@ class tc_date extends tc_date_main{
 		}
 	}
 
-	function getDateFromTimestamp($stime, $format = 'Y-m-d'){
-		if(!$this->compatible){
-			return tc_date_main::getDateFromTimestamp($stime, $format);
-		}else{
-			$tmp_date = new DateTime();
-			$tmp_date->setTimestamp($stime);
-			return $tmp_date->format($format);
-		}
+	public function getDateFromTimestamp($stime, $format = 'Y-m-d'){
+		if($stime){
+			if(!$this->compatible){
+				return tc_date_main::getDateFromTimestamp($stime, $format);
+			}else{
+				$tmp_date = new DateTime();
+				$tmp_date->setTimestamp($stime);
+				return $tmp_date->format($format);
+			}
+		}else return "";
 	}
 
-	function addDay($format = "Y-m-d", $timespan, $cdate = ""){
+	public function addDay($format, $timespan, $cdate = ""){
 		if(!$this->compatible){
 			return tc_date_main::addDay($format, $timespan, $cdate);
 		}else{
@@ -104,7 +105,7 @@ class tc_date extends tc_date_main{
 		}
 	}
 
-	function addMonth($format = "Y-m-d", $timespan, $cdate = ""){
+	public function addMonth($format, $timespan, $cdate = ""){
 		if(!$this->compatible){
 			return tc_date_main::addMonth($format, $timespan, $cdate);
 		}else{
@@ -113,7 +114,7 @@ class tc_date extends tc_date_main{
 		}
 	}
 
-	function addYear($format = "Y-m-d", $timespan, $cdate = ""){
+	public function addYear($format, $timespan, $cdate = ""){
 		if(!$this->compatible){
 			return tc_date_main::addYear($format, $timespan, $cdate);
 		}else{
@@ -122,7 +123,7 @@ class tc_date extends tc_date_main{
 		}
 	}
 
-	function addDate($format = "Y-m-d", $timespan, $cdate = ""){
+	public function addDate($format, $timespan, $cdate = ""){
 		if($this->compatible){
 			$tmp_date = ($cdate != "") ? new DateTime($cdate) : $this->mydate;
 			$tmp_date->add(new DateInterval($timespan));
@@ -132,7 +133,7 @@ class tc_date extends tc_date_main{
 
 	//return the number of day different between date1 and date2
 	//if date1 omitted use set date
-	function differentDate($date2, $date1 = ""){
+	public function differentDate($date2, $date1 = ""){
 		if(!$this->compatible){
 			return tc_date_main::differentDate($date2, $date1);
 		}else{
@@ -147,7 +148,7 @@ class tc_date extends tc_date_main{
 
 	//check if date1 is before date2
 	//if date1 omitted use set date
-	function dateBefore($date2, $date1 = "", $equal = true){
+	public function dateBefore($date2, $date1 = "", $equal = true){
 		if(!$this->compatible){
 			return tc_date_main::dateBefore($date2, $date1, $equal);
 		}else{
@@ -161,7 +162,7 @@ class tc_date extends tc_date_main{
 
 	//check if date1 is after date2
 	//if date1 omitted use set date
-	function dateAfter($date2, $date1 = "", $equal = true){
+	public function dateAfter($date2, $date1 = "", $equal = true){
 		if(!$this->compatible){
 			return tc_date_main::dateAfter($date2, $date1, $equal);
 		}else{

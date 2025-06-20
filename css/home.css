@@ -1,104 +1,123 @@
-body { font-size: 11px; font-family: "verdana"; }
-
-pre { font-family: "verdana"; font-size: 10px; background-color: #FFFFCC; padding: 5px 5px 5px 5px; }
-pre .comment { color: #008000; }
-pre .builtin { color:#FF0000;  }
-
-
-legend
-{
-color: #09C;
-font-size: 13px;
-font-style: normal;
+body {
+  font-size: 12px;
+  font-family: "verdana";
+  background-image: url("../ims/noiseBg.png");
+  width: 100%;
 }
 
-
-textarea:focus, input:focus {
-border: 1px solid #09C;
+pre {
+  font-family: "verdana";
+  font-size: 12px;
+  background-color: #ffffcc;
+  padding: 5px 5px 5px 5px;
+}
+pre .comment {
+  color: #008000;
+}
+pre .builtin {
+  color: #ff0000;
 }
 
+legend {
+  color: #09c;
+  font-size: 13px;
+  font-style: normal;
+}
+
+textarea:focus,
+input:focus {
+  border: 1px solid #09c;
+}
 
 input.button {
-width:100px;
-position:absolute;
-right:20px;
-bottom:20px;
-background:#09C;
-color:#fff;
-font-family: Tahoma, Geneva, sans-serif;
-height:30px;
--webkit-border-radius: 15px;
--moz-border-radius: 15px;
-border-radius: 15px;
-border: 1p solid #999;
-font-weight: bold;
+  width: 100px;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  background: #09c;
+  color: #fff;
+  font-family: Tahoma, Geneva, sans-serif;
+  height: 30px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  border: 1p solid #999;
+  font-weight: bold;
 }
 input.button:hover {
-background:#fff;
-color:#09C;
+  background: #fff;
+  color: #09c;
 }
 
 #pagHeader {
-    display: block;
-    height: 90px;
-    margin: 0;
-    width: 100%;
+  display: block;
+  height: 90px;
+  margin: 0;
+  width: 100%;
 }
 
 #logo img {
-  max-width: 100%;
-  height: 90px;
   width: 100%;
-  display:block;
-  position: absolute; 
+  height: 90px;
+  display: block;
+  position: absolute;
+}
+
+#apDivBanner {
+  position: absolute;
+  width: 1310px;
+  height: 110px;
+  z-index: -1;
+  left: 0px;
+  top: 0px;
+  background-image: url("../ims/banner3.png");
 }
 
 #apDivLeft {
-	position: absolute;
-	width: 267px;
-	height: 600px;
-	z-index: 1;
-	left: 0px;
-	top: 119px;
+  position: absolute;
+  width: 267px;
+  height: 600px;
+  z-index: 1;
+  left: 0px;
+  top: 119px;
 }
+
 #apDivRigth {
-	position: absolute;
-	width: 945px;
-	height: 600px;
-	z-index: 1;
-	left: 413px;
-	top: 119px;
+  position: absolute;
+  width: 945px;
+  height: 600px;
+  z-index: 1;
+  left: 360px;
+  top: 119px;
 }
+
 #apDivDay {
-	position: absolute;
-	width: 50px;
-	height: 50px;
-	z-index: 1;
-	left: 810px;
-	top: 0px;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  z-index: 1;
+  left: 810px;
+  top: 0px;
 }
+
 #apDivMiddle {
-	position: absolute;
-	width: 138px;
-	height: 600px;
-	z-index: 1;
-	left: 275px;
-	top: 119px;
+  position: absolute;
+  width: 138px;
+  height: 600px;
+  z-index: 1;
+  left: 276px;
+  top: 119px;
 }
 
 #apDivJoinRigth {
-	position: absolute;
-	width: 1082px;
-	height: 600px;
-	z-index: 1;
-	left: 269px;
-	top: 119px;
+  position: absolute;
+  width: 1082px;
+  height: 600px;
+  z-index: 1;
+  left: 269px;
+  top: 119px;
 }
 
-.border {border:1px solid #cccccc;}
-
-body {
-	background-image: url("../ims/noiseBg.png");
-	width: 100%;
+.border {
+  border: 1px solid #cccccc;
 }
-
