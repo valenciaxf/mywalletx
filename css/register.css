@@ -1,0 +1,74 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+#apDivBanner {
+    position: relative;
+    padding: 16px;
+    background: #f8f8f8;
+    border: 1px solid #ccc;
+    min-height: 140px;
+}
+
+.logo-banner {
+    position: absolute;
+    top: 9px;
+    left: 12px;
+    width: 207px;
+    height: 93px;
+    max-width: 100%;
+    height: auto;
+}
+
+#welcome {
+    position: absolute;
+    top: 102px;
+    left: 270px;
+    font-size: 1.1em;
+    color: #333;
+}
+
+.home-label {
+    position: absolute;
+    top: 72px;
+    left: 63%;
+    font-weight: bold;
+}
+
+.home-icon {
+    position: absolute;
+    top: 93px;
+    left: 63%;
+    width: 27px;
+    height: 27px;
+}
+
+.exit-icon {
+    position: absolute;
+    top: 21px;
+    left: 93%;
+    width: 48px;
+    height: 48px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #apDivBanner {
+        min-height: 180px;
+        padding: 8px;
+    }
+    .logo-banner {
+        position: static;
+        width: 120px;
+        height: auto;
+        margin-bottom: 8px;
+    }
+    #welcome, .home-label, .home-icon, .exit-icon {
+        position: static;
+        display: block;
+        margin: 8px 0;
+        left: auto;
+        top: auto;
+    }
+}
