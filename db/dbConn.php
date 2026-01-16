@@ -126,7 +126,7 @@ class dbConn
 								$ret = mysqli_query($this->connX,$sql);
 								return $ret;
 			} catch (mysqli_sql_exception  $e) {
-				$this->recordLog  ($e,$currentURL,'Auth User',$user_id);
+				$this->recordLog  ($e,$currentURL,'Auth User',user_id: $user_id);
 			}
 	}
 

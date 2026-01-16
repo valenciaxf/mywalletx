@@ -4,7 +4,7 @@ require_once('session.php');
 
 ?>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 
 <html>
 
@@ -15,11 +15,10 @@ require_once('session.php');
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" />
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="css/register.css">
 
 
 
-  <script language="javascript">
+  <script type="text/javascript>
     window.setTimeout(function () {
       $(".alert").fadeTo(500, 0).slideUp(500, function () {
         $(this).remove();
@@ -155,9 +154,6 @@ require_once('session.php');
 					              </div>";
   }
 
-  include("homeAndExit.php");
-
-
   if (isset($_POST['enviar']) && $_POST['enviar'] == 'Registrar') {
     // validate empty fields...
     if (
@@ -290,6 +286,9 @@ require_once('session.php');
     </p>
   </form>
 
+<?php
+  include("homeAndExit.php");
+?>
 </body>
 
 </html>
