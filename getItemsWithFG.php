@@ -9,7 +9,7 @@ require_once('datePicker/calendar/calendar/classes/tc_calendar.php');
 
 <head>
   <link rel="stylesheet" type="text/css" href="css/flexigrid.css">
-  <script type="text/javascript" src="jquery/jquery-4.0.0.min.js"></script>
+  <script type="text/javascript" src="jquery/jquery-1.5.2.min.js"></script>
   <script type="text/javascript" src="js/flexigrid.js"></script>
 
   <link rel="stylesheet" type="text/css" href="css/homeFG.css">
